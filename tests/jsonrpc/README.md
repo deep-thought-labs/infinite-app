@@ -123,4 +123,8 @@ The scripts use the following defaults:
 
 - Verify the container is running: `docker ps | grep evmd-jsonrpc-test`
 - Check if ports are bound: `docker port evmd-jsonrpc-test`
+<<<<<<< HEAD
 - Test with curl: `curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' http://localhost:8545`
+=======
+- Test with curl: `curl -X POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_chainId","params":[],"id":1}' http://localhost:8545`
+>>>>>>> ab1cd0cf (test(jsonrpc): add jsonrpc compatibility test (#419))
