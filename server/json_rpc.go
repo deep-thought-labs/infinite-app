@@ -24,6 +24,11 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 )
 
+<<<<<<< HEAD
+=======
+const shutdownTimeout = 200 * time.Millisecond
+
+>>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495))
 type AppWithPendingTxStream interface {
 	RegisterPendingTxListener(listener func(common.Hash))
 }
@@ -108,12 +113,18 @@ func StartJSONRPC(
 		case <-ctx.Done():
 			// The calling process canceled or closed the provided context, so we must
 			// gracefully stop the JSON-RPC server.
+<<<<<<< HEAD
 			logger.Info("stopping JSON-RPC server...", "address", config.JSONRPC.Address)
 			if err := httpSrv.Shutdown(context.Background()); err != nil {
+=======
+			logger.Info("stopping JSON-RPC server...", "address", config.JSONRPC.Address, "timeout", shutdownTimeout)
+			ctxShutdown, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+			defer cancel()
+			if err := httpSrv.Shutdown(ctxShutdown); err != nil {
+>>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495))
 				logger.Error("failed to shutdown JSON-RPC server", "error", err.Error())
 			}
 			return nil
-
 		case err := <-errCh:
 			if err == http.ErrServerClosed {
 				close(httpSrvDone)

@@ -1145,6 +1145,28 @@ func (app *EVMD) SetClientCtx(clientCtx client.Context) {
 	app.clientCtx = clientCtx
 }
 
+<<<<<<< HEAD:infinited/app.go
+=======
+// Close unsubscribes from the CometBFT event bus (if set) and closes the mempool and underlying BaseApp.
+func (app *EVMD) Close() error {
+	var err error
+	if m, ok := app.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok {
+		app.Logger().Info("Shutting down mempool")
+		err = m.Close()
+	}
+
+	msg := "Application gracefully shutdown"
+	err = errors.Join(err, app.BaseApp.Close())
+	if err == nil {
+		app.Logger().Info(msg)
+	} else {
+		app.Logger().Error(msg, "error", err)
+	}
+
+	return err
+}
+
+>>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495)):evmd/app.go
 // AutoCliOpts returns the autocli options for the app.
 func (app *EVMD) AutoCliOpts() autocli.AppOptions {
 	modules := make(map[string]appmodule.AppModule, 0)

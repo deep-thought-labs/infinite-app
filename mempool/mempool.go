@@ -376,6 +376,42 @@ func (m *ExperimentalEVMMempool) SelectBy(goCtx context.Context, i [][]byte, f f
 	}
 }
 
+<<<<<<< HEAD
+=======
+// SetEventBus sets CometBFT event bus to listen for new block header event.
+func (m *ExperimentalEVMMempool) SetEventBus(eventBus *cmttypes.EventBus) {
+	if m.eventBus != nil {
+		m.eventBus.Unsubscribe(context.Background(), SubscriberName, stream.NewBlockHeaderEvents) //nolint: errcheck
+	}
+	m.eventBus = eventBus
+	sub, err := eventBus.Subscribe(context.Background(), SubscriberName, stream.NewBlockHeaderEvents)
+	if err != nil {
+		panic(err)
+	}
+	go func() {
+		for range sub.Out() {
+			m.GetBlockchain().NotifyNewBlock()
+		}
+	}()
+}
+
+// Close unsubscribes from the CometBFT event bus and shuts down the mempool.
+func (m *ExperimentalEVMMempool) Close() error {
+	var errs []error
+	if m.eventBus != nil {
+		if err := m.eventBus.Unsubscribe(context.Background(), SubscriberName, stream.NewBlockHeaderEvents); err != nil {
+			errs = append(errs, fmt.Errorf("failed to unsubscribe from event bus: %w", err))
+		}
+	}
+
+	if err := m.txPool.Close(); err != nil {
+		errs = append(errs, fmt.Errorf("failed to close txpool: %w", err))
+	}
+
+	return errors.Join(errs...)
+}
+
+>>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495))
 // getEVMMessage validates that the transaction contains exactly one message and returns it if it's an EVM message.
 // Returns an error if the transaction has no messages, multiple messages, or the single message is not an EVM transaction.
 func (m *ExperimentalEVMMempool) getEVMMessage(tx sdk.Tx) (*evmtypes.MsgEthereumTx, error) {
