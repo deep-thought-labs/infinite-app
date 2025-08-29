@@ -109,7 +109,11 @@ func (b *Backend) SendTransaction(args evmtypes.TransactionArgs) (common.Hash, e
 	}
 	if err != nil {
 		// Check if this is a nonce gap error that was successfully queued
+<<<<<<< HEAD
 		if strings.Contains(err.Error(), "tx nonce is higher than account nonce") {
+=======
+		if b.Mempool != nil && strings.Contains(err.Error(), mempool.ErrNonceGap.Error()) {
+>>>>>>> 5ffe3cca (chore: check if mempool is not nil before accepting nonce gap error tx (#572))
 			// Transaction was successfully queued due to nonce gap, return success to client
 			b.Logger.Debug("transaction queued due to nonce gap", "hash", txHash.Hex())
 			return txHash, nil
