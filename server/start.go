@@ -445,8 +445,12 @@ func startInProcess(svrCtx *server.Context, clientCtx client.Context, opts Start
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok {
+=======
+		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok && m != nil {
+>>>>>>> ea3e951e (fix: don't panic if evm mempool not used (#730))
 			m.SetEventBus(bftNode.EventBus())
 		}
 >>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495))
