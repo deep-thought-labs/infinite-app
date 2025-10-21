@@ -446,11 +446,15 @@ func startInProcess(svrCtx *server.Context, clientCtx client.Context, opts Start
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok {
 =======
 		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok && m != nil {
 >>>>>>> ea3e951e (fix: don't panic if evm mempool not used (#730))
+=======
+		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok && m != nil {
+>>>>>>> a6898813 (Merge commit from fork)
 			m.SetEventBus(bftNode.EventBus())
 		}
 >>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495))
