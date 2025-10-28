@@ -319,14 +319,13 @@ func (k ContractKeeper) IBCOnAcknowledgementPacketCallback(
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "provided contract address is not a contract: %s", contractAddr)
 	}
 
-	abi, err := callbacksabi.LoadABI()
-	if err != nil {
-		return err
-	}
-
 	// Call the onPacketAcknowledgement function in the contract
 	// NOTE: use the cached ctx for the EVM calls.
+<<<<<<< HEAD
 	res, err := k.evmKeeper.CallEVM(cachedCtx, stateDB, *abi, sender, contractAddr, true, false, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketAcknowledgement",
+=======
+	res, err := k.evmKeeper.CallEVM(cachedCtx, callbacksabi.ABI, sender, contractAddr, true, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketAcknowledgement",
+>>>>>>> 399869b4 (chore(precompiles)!: use pure abi in abi.json (#758))
 		packet.GetSourceChannel(), packet.GetSourcePort(), packet.GetSequence(), packet.GetData(), acknowledgement)
 	if err != nil {
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "EVM returned error: %s", err.Error())
@@ -420,12 +419,16 @@ func (k ContractKeeper) IBCOnTimeoutPacketCallback(
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "provided contract address is not a contract: %s", contractAddr)
 	}
 
+<<<<<<< HEAD
 	abi, err := callbacksabi.LoadABI()
 	if err != nil {
 		return err
 	}
 
 	res, err := k.evmKeeper.CallEVM(ctx, stateDB, *abi, sender, contractAddr, true, false, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketTimeout",
+=======
+	res, err := k.evmKeeper.CallEVM(ctx, callbacksabi.ABI, sender, contractAddr, true, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketTimeout",
+>>>>>>> 399869b4 (chore(precompiles)!: use pure abi in abi.json (#758))
 		packet.GetSourceChannel(), packet.GetSourcePort(), packet.GetSequence(), packet.GetData())
 	if err != nil {
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "EVM returned error: %s", err.Error())
