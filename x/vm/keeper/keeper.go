@@ -43,7 +43,7 @@ type Keeper struct {
 	transientKey storetypes.StoreKey
 
 	// KVStore Keys for modules wired to app
-	storeKeys map[string]*storetypes.KVStoreKey
+	storeKeys map[string]storetypes.StoreKey
 
 	// the address capable of executing a MsgUpdateParams message. Typically, this should be the x/gov module account.
 	authority sdk.AccAddress
@@ -91,7 +91,7 @@ type Keeper struct {
 func NewKeeper(
 	cdc codec.BinaryCodec,
 	storeKey, transientKey storetypes.StoreKey,
-	keys map[string]*storetypes.KVStoreKey,
+	keys []storetypes.StoreKey,
 	authority sdk.AccAddress,
 	ak types.AccountKeeper,
 	bankKeeper types.BankKeeper,
@@ -114,6 +114,10 @@ func NewKeeper(
 
 	bankWrapper := wrappers.NewBankWrapper(bankKeeper)
 	feeMarketWrapper := wrappers.NewFeeMarketWrapper(fmk)
+	storeKeys := make(map[string]storetypes.StoreKey)
+	for _, k := range keys {
+		storeKeys[k.Name()] = k
+	}
 
 	// set global chain config
 	ethCfg := types.DefaultChainConfig(evmChainID)
@@ -134,7 +138,7 @@ func NewKeeper(
 		tracer:           tracer,
 		consensusKeeper:  consensusKeeper,
 		erc20Keeper:      erc20Keeper,
-		storeKeys:        keys,
+		storeKeys:        storeKeys,
 	}
 }
 
@@ -408,7 +412,7 @@ func (k Keeper) AddTransientGasUsed(ctx sdk.Context, gasUsed uint64) (uint64, er
 }
 
 // KVStoreKeys returns KVStore keys injected to keeper
-func (k Keeper) KVStoreKeys() map[string]*storetypes.KVStoreKey {
+func (k Keeper) KVStoreKeys() map[string]storetypes.StoreKey {
 	return k.storeKeys
 }
 

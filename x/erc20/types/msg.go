@@ -79,6 +79,14 @@ func (msg MsgConvertERC20) ValidateBasic() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// GetSignBytes encodes the message for signing
+func (msg MsgConvertERC20) GetSignBytes() []byte {
+	return AminoCdc.MustMarshalJSON(&msg)
+}
+
+>>>>>>> de4f0d26 (chore!: Bump ibc-go (#762))
 // ValidateBasic does a sanity check of the provided data
 func (m *MsgUpdateParams) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(m.Authority); err != nil {
@@ -87,6 +95,14 @@ func (m *MsgUpdateParams) ValidateBasic() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// GetSignBytes implements the LegacyMsg interface.
+func (m MsgUpdateParams) GetSignBytes() []byte {
+	return AminoCdc.MustMarshalJSON(&m)
+}
+
+>>>>>>> de4f0d26 (chore!: Bump ibc-go (#762))
 // ValidateBasic does a sanity check of the provided data
 func (m *MsgRegisterERC20) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(m.Signer)
@@ -134,3 +150,11 @@ func (msg MsgConvertCoin) ValidateBasic() error {
 	}
 	return nil
 }
+<<<<<<< HEAD
+=======
+
+// GetSignBytes encodes the message for signing
+func (msg MsgConvertCoin) GetSignBytes() []byte {
+	return AminoCdc.MustMarshalJSON(&msg)
+}
+>>>>>>> de4f0d26 (chore!: Bump ibc-go (#762))

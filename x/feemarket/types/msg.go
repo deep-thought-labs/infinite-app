@@ -16,3 +16,11 @@ func (m *MsgUpdateParams) ValidateBasic() error {
 
 	return m.Params.Validate()
 }
+<<<<<<< HEAD
+=======
+
+// GetSignBytes implements the LegacyMsg interface.
+func (m MsgUpdateParams) GetSignBytes() []byte {
+	return AminoCdc.MustMarshalJSON(&m)
+}
+>>>>>>> de4f0d26 (chore!: Bump ibc-go (#762))

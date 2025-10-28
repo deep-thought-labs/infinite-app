@@ -74,6 +74,8 @@ type MockChannelKeeper struct {
 	mock.Mock
 }
 
+func (b *MockChannelKeeper) SetICS4Wrapper(_ porttypes.ICS4Wrapper) {}
+
 func (b *MockChannelKeeper) GetChannel(ctx sdk.Context, srcPort, srcChan string) (channel channeltypes.Channel, found bool) {
 	args := b.Called(mock.Anything, mock.Anything, mock.Anything)
 	return args.Get(0).(channeltypes.Channel), true
@@ -91,6 +93,26 @@ func (b *MockChannelKeeper) GetNextSequenceSend(ctx sdk.Context, portID, channel
 
 func (b *MockChannelKeeper) GetAllChannelsWithPortPrefix(ctx sdk.Context, portPrefix string) []channeltypes.IdentifiedChannel {
 	return []channeltypes.IdentifiedChannel{}
+}
+
+func (b *MockChannelKeeper) WriteAcknowledgement(_ sdk.Context, _ exported.PacketI, _ exported.Acknowledgement) error {
+	return nil
+}
+
+func (b *MockChannelKeeper) GetAppVersion(ctx sdk.Context, portID string, channelID string) (string, bool) {
+	return "", false
+}
+
+func (b *MockChannelKeeper) SendPacket(
+	ctx sdk.Context,
+	sourcePort string,
+	sourceChannel string,
+	timeoutHeight clienttypes.Height,
+	timeoutTimestamp uint64,
+	data []byte,
+) (sequence uint64, err error) {
+	// _ = b.Called(mock.Anything, mock.Anything, mock.Anything)
+	return 0, nil
 }
 
 var _ porttypes.ICS4Wrapper = &MockICS4Wrapper{}
