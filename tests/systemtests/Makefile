@@ -3,6 +3,7 @@
 WAIT_TIME ?= 20s
 
 test:
+<<<<<<< HEAD
 	go test -failfast -timeout=30m -p=1 -mod=readonly -tags='system_test' -v ./... -run TestCosmosTxCompat --wait-time=$(WAIT_TIME) --block-time=9.5s --binary evmd --chain-id local-4221
 	go test -failfast -timeout=30m -p=1 -mod=readonly -tags='system_test' -v ./... -run TestTxsReplacement --wait-time=$(WAIT_TIME) --block-time=9.5s --binary evmd --chain-id local-4221
 	go test -failfast -timeout=30m -p=1 -mod=readonly -tags='system_test' -v ./... -run TestTxsOrdering --wait-time=$(WAIT_TIME) --block-time=3s --binary evmd --chain-id local-4221
@@ -10,3 +11,6 @@ test:
 	go test -failfast -timeout=30m -p=1 -mod=readonly -tags='system_test' -v ./... -run TestEIP7702 --wait-time=$(WAIT_TIME) --block-time=5s --binary evmd --chain-id local-4221
 	go test -failfast -timeout=30m -p=1 -mod=readonly -tags='system_test' -v ./... -run TestEIP712 --wait-time=$(WAIT_TIME) --block-time=5s --binary evmd --chain-id local-4221
 	go test -failfast -timeout=30m -p=1 -mod=readonly -tags='system_test' -v ./... -run 'TestChainUpgrade|TestEth' --wait-time=$(WAIT_TIME) --block-time=5s --binary evmd --chain-id local-4221
+=======
+	go test -failfast -timeout=30m -mod=readonly -tags='system_test' -v ./... --wait-time=$(WAIT_TIME) --binary evmd --chain-id local-4221
+>>>>>>> a0a98b98 (refactor: systemtests (#720))
