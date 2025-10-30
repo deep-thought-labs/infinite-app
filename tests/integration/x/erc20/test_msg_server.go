@@ -117,6 +117,123 @@ func (s *KeeperTestSuite) TestConvertERC20() {
 				msg.ContractAddress = "0xGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"
 				return msg
 			},
+<<<<<<< HEAD
+=======
+			contractMinterBurner,
+			false,
+			false,
+		},
+
+		{
+			"fail - force invalid transfer fail",
+			100,
+			10,
+			func(common.Address) {},
+			func() {
+				mockEVMKeeper := &erc20mocks.EVMKeeper{}
+				transferKeeper := s.network.App.GetTransferKeeper()
+				erc20Keeper := keeper.NewKeeper(
+					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
+					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
+					s.network.App.GetBankKeeper(), mockEVMKeeper, s.network.App.GetStakingKeeper(),
+					&transferKeeper,
+				)
+				s.network.App.SetErc20Keeper(erc20Keeper)
+
+				existingAcc := &statedb.Account{Nonce: uint64(1), Balance: uint256.NewInt(1)}
+				balance := make([]uint8, 32)
+				mockEVMKeeper.On("EstimateGasInternal", mock.Anything, mock.Anything, mock.Anything).Return(&evmtypes.EstimateGasResponse{Gas: uint64(200)}, nil)
+				mockEVMKeeper.On("CallEVM", mock.Anything, mock.Anything, mock.Anything, mock.Anything,
+					mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(&evmtypes.MsgEthereumTxResponse{Ret: balance}, nil).Once()
+				mockEVMKeeper.On("CallEVMWithData", mock.Anything, mock.Anything, mock.Anything, mock.Anything,
+					mock.Anything, mock.Anything).Return(&evmtypes.MsgEthereumTxResponse{Ret: balance}, nil)
+				mockEVMKeeper.On("GetAccountWithoutBalance", mock.Anything, mock.Anything).Return(existingAcc, nil)
+				mockEVMKeeper.On("IsContract", mock.Anything, mock.Anything).Return(true)
+			},
+			contractMinterBurner,
+			false,
+			false,
+		},
+		{
+			"fail - force mint fail",
+			100,
+			10,
+			func(common.Address) {},
+			func() {
+				ctrl := gomock.NewController(s.T())
+				mockBankKeeper := erc20mocks.NewMockBankKeeper(ctrl)
+				transferKeeper := s.network.App.GetTransferKeeper()
+				erc20Keeper := keeper.NewKeeper(
+					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
+					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
+					mockBankKeeper, s.network.App.GetEVMKeeper(), s.network.App.GetStakingKeeper(),
+					&transferKeeper,
+				)
+				s.network.App.SetErc20Keeper(erc20Keeper)
+
+				mockBankKeeper.EXPECT().MintCoins(gomock.Any(), gomock.Any(), gomock.Any()).Return(fmt.Errorf("failed to mint")).AnyTimes()
+				mockBankKeeper.EXPECT().SendCoinsFromModuleToAccount(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(fmt.Errorf("failed to unescrow")).AnyTimes()
+				mockBankKeeper.EXPECT().BlockedAddr(gomock.Any()).Return(false).AnyTimes()
+				mockBankKeeper.EXPECT().GetBalance(gomock.Any(), gomock.Any(), gomock.Any()).Return(sdk.Coin{Denom: "coin", Amount: math.OneInt()}).AnyTimes()
+				mockBankKeeper.EXPECT().IsSendEnabledCoin(gomock.Any(), gomock.Any()).Return(true).AnyTimes()
+			},
+			contractMinterBurner,
+			false,
+			false,
+		},
+		{
+			"fail - force send minted fail",
+			100,
+			10,
+			func(common.Address) {},
+			func() {
+				ctrl := gomock.NewController(s.T())
+				mockBankKeeper := erc20mocks.NewMockBankKeeper(ctrl)
+				transferKeeper := s.network.App.GetTransferKeeper()
+				erc20Keeper := keeper.NewKeeper(
+					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
+					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
+					mockBankKeeper, s.network.App.GetEVMKeeper(), s.network.App.GetStakingKeeper(),
+					&transferKeeper,
+				)
+				s.network.App.SetErc20Keeper(erc20Keeper)
+
+				mockBankKeeper.EXPECT().MintCoins(gomock.Any(), gomock.Any(), gomock.Any()).Return(nil)
+				mockBankKeeper.EXPECT().SendCoinsFromModuleToAccount(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(fmt.Errorf("failed to unescrow"))
+				mockBankKeeper.EXPECT().BlockedAddr(gomock.Any()).Return(false)
+				mockBankKeeper.EXPECT().GetBalance(gomock.Any(), gomock.Any(), gomock.Any()).Return(sdk.Coin{Denom: "coin", Amount: math.OneInt()})
+				mockBankKeeper.EXPECT().IsSendEnabledCoin(gomock.Any(), gomock.Any()).Return(true).AnyTimes()
+			},
+			contractMinterBurner,
+			false,
+			false,
+		},
+		{
+			"fail - force bank balance fail",
+			100,
+			10,
+			func(common.Address) {},
+			func() {
+				ctrl := gomock.NewController(s.T())
+				mockBankKeeper := erc20mocks.NewMockBankKeeper(ctrl)
+				transferKeeper := s.network.App.GetTransferKeeper()
+				erc20Keeper := keeper.NewKeeper(
+					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
+					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
+					mockBankKeeper, s.network.App.GetEVMKeeper(), s.network.App.GetStakingKeeper(),
+					&transferKeeper,
+				)
+				s.network.App.SetErc20Keeper(erc20Keeper)
+
+				mockBankKeeper.EXPECT().MintCoins(gomock.Any(), gomock.Any(), gomock.Any()).Return(nil)
+				mockBankKeeper.EXPECT().SendCoinsFromModuleToAccount(gomock.Any(), gomock.Any(), gomock.Any(), gomock.Any()).Return(nil)
+				mockBankKeeper.EXPECT().BlockedAddr(gomock.Any()).Return(false)
+				mockBankKeeper.EXPECT().GetBalance(gomock.Any(), gomock.Any(), gomock.Any()).Return(sdk.Coin{Denom: coinName, Amount: math.OneInt()}).AnyTimes()
+				mockBankKeeper.EXPECT().IsSendEnabledCoin(gomock.Any(), gomock.Any()).Return(true).AnyTimes()
+			},
+			contractMinterBurner,
+			false,
+>>>>>>> 91519e45 (fix: ibc middleware verify sender address incorrectly (#769))
 			false,
 		},
 	}

@@ -36,8 +36,15 @@ func (k Keeper) ConvertERC20(
 	sender := common.HexToAddress(msg.Sender)
 	contract := common.HexToAddress(msg.ContractAddress)
 
+<<<<<<< HEAD
 	// Create stateDB for this transaction
 	stateDB := statedb.New(ctx, k.evmKeeper, statedb.NewEmptyTxConfig())
+=======
+	pair, err := k.MintingEnabled(ctx, receiver, msg.ContractAddress)
+	if err != nil {
+		return nil, err
+	}
+>>>>>>> 91519e45 (fix: ibc middleware verify sender address incorrectly (#769))
 
 	return k.ConvertERC20IntoCoinsForNativeToken(ctx, stateDB, contract, msg.Amount, receiver, sender, true, false)
 }
