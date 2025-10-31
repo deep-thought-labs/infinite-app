@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 <<<<<<< HEAD:infinited/cmd/evmd/cmd/root.go
+<<<<<<< HEAD:infinited/cmd/evmd/cmd/root.go
 =======
 	"github.com/cosmos/evm/utils"
 	"github.com/cosmos/evm/x/vm/types"
@@ -10,6 +11,12 @@ import (
 	"io"
 	"os"
 
+=======
+	"io"
+	"os"
+
+	"github.com/cosmos/evm/utils"
+>>>>>>> 1393a46d (fix: allow ledger flag work with coin type 60 (#690)):evmd/cmd/evmd/cmd/root.go
 	"github.com/cosmos/evm/x/vm/types"
 
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
@@ -24,11 +31,15 @@ import (
 	cosmosevmcmd "github.com/cosmos/evm/client"
 	evmdebug "github.com/cosmos/evm/client/debug"
 <<<<<<< HEAD:infinited/cmd/evmd/cmd/root.go
+<<<<<<< HEAD:infinited/cmd/evmd/cmd/root.go
 	"github.com/cosmos/evm/config"
 	"github.com/cosmos/evm/crypto/hd"
 =======
 	cosmosevmkeyring "github.com/cosmos/evm/crypto/keyring"
 >>>>>>> bebba5fe (chore: move relevant hardcoded configs back to evmd as an example (#751)):evmd/cmd/evmd/cmd/root.go
+=======
+	"github.com/cosmos/evm/crypto/hd"
+>>>>>>> 1393a46d (fix: allow ledger flag work with coin type 60 (#690)):evmd/cmd/evmd/cmd/root.go
 	"github.com/cosmos/evm/evmd"
 	"github.com/cosmos/evm/evmd/config"
 	cosmosevmserver "github.com/cosmos/evm/server"
