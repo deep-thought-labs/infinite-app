@@ -18,9 +18,21 @@ import (
 )
 
 // CallEVM performs a smart contract method call using given args.
+<<<<<<< HEAD
 // Note: if you call this from a precompile context, ensure that
 // you use the existing stateDB.
 func (k Keeper) CallEVM(ctx sdk.Context, stateDB *statedb.StateDB, abi abi.ABI, from, contract common.Address, commit, callFromPrecompile bool, gasCap *big.Int, method string, args ...interface{}) (*types.MsgEthereumTxResponse, error) {
+=======
+func (k Keeper) CallEVM(
+	ctx sdk.Context,
+	abi abi.ABI,
+	from, contract common.Address,
+	commit bool,
+	gasCap *big.Int,
+	method string,
+	args ...any,
+) (*types.MsgEthereumTxResponse, error) {
+>>>>>>> 3d3b5dda (nicee (#787))
 	data, err := abi.Pack(method, args...)
 	if err != nil {
 		return nil, errorsmod.Wrap(

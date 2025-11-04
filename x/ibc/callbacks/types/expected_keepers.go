@@ -24,8 +24,13 @@ type AccountKeeper interface {
 
 // EVMKeeper defines the expected EVM keeper interface used on erc20
 type EVMKeeper interface {
+<<<<<<< HEAD
 	CallEVM(ctx sdk.Context, stateDB *statedb.StateDB, abi abi.ABI, from, contract common.Address, commit bool, callFromPrecompile bool, gasCap *big.Int, method string, args ...interface{}) (*evmtypes.MsgEthereumTxResponse, error)
 	CallEVMWithData(ctx sdk.Context, stateDB *statedb.StateDB, from common.Address, contract *common.Address, data []byte, commit bool, callFromPrecompile bool, gasCap *big.Int) (*evmtypes.MsgEthereumTxResponse, error)
+=======
+	CallEVM(ctx sdk.Context, abi abi.ABI, from, contract common.Address, commit bool, gasCap *big.Int, method string, args ...any) (*evmtypes.MsgEthereumTxResponse, error)
+	CallEVMWithData(ctx sdk.Context, from common.Address, contract *common.Address, data []byte, commit bool, gasCap *big.Int) (*evmtypes.MsgEthereumTxResponse, error)
+>>>>>>> 3d3b5dda (nicee (#787))
 	GetAccountOrEmpty(ctx sdk.Context, addr common.Address) statedb.Account
 	GetAccount(ctx sdk.Context, addr common.Address) *statedb.Account
 	IsContract(ctx sdk.Context, addr common.Address) bool

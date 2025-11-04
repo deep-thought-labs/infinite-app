@@ -61,10 +61,17 @@ func (_m *EVMKeeper) ApplyMessage(ctx types.Context, stateDB *statedb.StateDB, m
 	return r0, r1
 }
 
+<<<<<<< HEAD
 // CallEVM provides a mock function with given fields: ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args
 func (_m *EVMKeeper) CallEVM(ctx types.Context, stateDB *statedb.StateDB, _a2 abi.ABI, from common.Address, contract common.Address, commit bool, callFromPrecompile bool, gasCap *big.Int, method string, args ...interface{}) (*vmtypes.MsgEthereumTxResponse, error) {
 	var _ca []interface{}
 	_ca = append(_ca, ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method)
+=======
+// CallEVM provides a mock function with given fields: ctx, _a1, from, contract, commit, gasCap, method, args
+func (_m *EVMKeeper) CallEVM(ctx types.Context, _a1 abi.ABI, from common.Address, contract common.Address, commit bool, gasCap *big.Int, method string, args ...any) (*vmtypes.MsgEthereumTxResponse, error) {
+	var _ca []any
+	_ca = append(_ca, ctx, _a1, from, contract, commit, gasCap, method)
+>>>>>>> 3d3b5dda (nicee (#787))
 	_ca = append(_ca, args...)
 	ret := _m.Called(_ca...)
 
@@ -74,19 +81,32 @@ func (_m *EVMKeeper) CallEVM(ctx types.Context, stateDB *statedb.StateDB, _a2 ab
 
 	var r0 *vmtypes.MsgEthereumTxResponse
 	var r1 error
+<<<<<<< HEAD
 	if rf, ok := ret.Get(0).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) (*vmtypes.MsgEthereumTxResponse, error)); ok {
 		return rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
 	}
 	if rf, ok := ret.Get(0).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) *vmtypes.MsgEthereumTxResponse); ok {
 		r0 = rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
+=======
+	if rf, ok := ret.Get(0).(func(types.Context, abi.ABI, common.Address, common.Address, bool, *big.Int, string, ...any) (*vmtypes.MsgEthereumTxResponse, error)); ok {
+		return rf(ctx, _a1, from, contract, commit, gasCap, method, args...)
+	}
+	if rf, ok := ret.Get(0).(func(types.Context, abi.ABI, common.Address, common.Address, bool, *big.Int, string, ...any) *vmtypes.MsgEthereumTxResponse); ok {
+		r0 = rf(ctx, _a1, from, contract, commit, gasCap, method, args...)
+>>>>>>> 3d3b5dda (nicee (#787))
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*vmtypes.MsgEthereumTxResponse)
 		}
 	}
 
+<<<<<<< HEAD
 	if rf, ok := ret.Get(1).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) error); ok {
 		r1 = rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
+=======
+	if rf, ok := ret.Get(1).(func(types.Context, abi.ABI, common.Address, common.Address, bool, *big.Int, string, ...any) error); ok {
+		r1 = rf(ctx, _a1, from, contract, commit, gasCap, method, args...)
+>>>>>>> 3d3b5dda (nicee (#787))
 	} else {
 		r1 = ret.Error(1)
 	}
