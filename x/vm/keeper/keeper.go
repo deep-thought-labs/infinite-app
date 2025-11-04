@@ -90,7 +90,14 @@ type Keeper struct {
 	// virtualFeeCollection enabling will use "Virtual" methods from the bank module to accumulate
 	// fees to the fee collector module in the endBlocker instead of using regular sends during tx execution.
 	virtualFeeCollection bool
+<<<<<<< HEAD
 >>>>>>> 79bcc14f (feat!: Block STM (#589))
+=======
+
+	// defaultEvmCoinInfo is the default EVM coin info used when evmCoinInfo is not initialized in the state,
+	// mainly for historical queries.
+	defaultEvmCoinInfo types.EvmCoinInfo
+>>>>>>> 1fd8ef37 (fix: `evmCoinInfo` not exists in historical state (#790))
 }
 
 // NewKeeper generates new evm module keeper
@@ -163,7 +170,10 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 // WithDefaultEvmCoinInfo set default EvmCoinInfo
 func (k *Keeper) WithDefaultEvmCoinInfo(coinInfo types.EvmCoinInfo) *Keeper {
 	k.defaultEvmCoinInfo = coinInfo
+<<<<<<< HEAD
 	types.SetDefaultEvmCoinInfo(coinInfo)
+=======
+>>>>>>> 1fd8ef37 (fix: `evmCoinInfo` not exists in historical state (#790))
 	return k
 }
 
