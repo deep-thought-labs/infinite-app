@@ -393,7 +393,11 @@ test-system: build-v05 build
 
 build-v05:
 	mkdir -p ./tests/systemtests/binaries/v0.5
+<<<<<<< HEAD
 	git checkout v0.5.1
+=======
+	git checkout v0.5.0
+>>>>>>> 32eee32b (bump (#801))
 	make build
 	cp $(BUILDDIR)/evmd ./tests/systemtests/binaries/v0.5
 	git checkout -
