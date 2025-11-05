@@ -19,7 +19,7 @@ import (
 )
 
 // UpgradeName defines the on-chain upgrade name for the sample EVMD upgrade
-// from v0.4.0 to v0.5.0.
+// from v0.5.0 to v0.6.0.
 //
 // NOTE: This upgrade defines a reference implementation of what an upgrade
 // could look like when an application is migrating from EVMD version

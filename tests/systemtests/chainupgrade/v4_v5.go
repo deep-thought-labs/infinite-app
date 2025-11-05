@@ -22,8 +22,12 @@ const (
 	upgradeName         = "v0.5.0-to-v0.6.0" // must match UpgradeName in evmd/upgrades.go
 =======
 	upgradeHeight int64 = 12
+<<<<<<< HEAD
 	upgradeName         = "v0.4.0-to-v0.5.0" // must match UpgradeName in evmd/upgrades.go
 >>>>>>> a0a98b98 (refactor: systemtests (#720)):tests/systemtests/chainupgrade/v4_v5.go
+=======
+	upgradeName         = "v0.5.0-to-v0.6.0" // must match UpgradeName in evmd/upgrades.go
+>>>>>>> 5217b59d (fix: system test error (#805))
 )
 
 // RunChainUpgrade exercises an on-chain software upgrade using the injected shared suite.
@@ -42,6 +46,7 @@ func RunChainUpgrade(t *testing.T, base *suite.BaseTestSuite) {
 	currentBranchBinary := sut.ExecBinary()
 	currentInitializer := sut.TestnetInitializer()
 
+<<<<<<< HEAD
 <<<<<<< HEAD:tests/systemtests/upgrade_test.go
 	legacyBinary := systest.WorkDir + "/binaries/v0.5/evmd"
 	systest.Sut.SetExecBinary(legacyBinary)
@@ -49,6 +54,9 @@ func RunChainUpgrade(t *testing.T, base *suite.BaseTestSuite) {
 	systest.Sut.SetupChain()
 =======
 	legacyBinary := systest.WorkDir + "/binaries/v0.4/evmd"
+=======
+	legacyBinary := systest.WorkDir + "/binaries/v0.5/evmd"
+>>>>>>> 5217b59d (fix: system test error (#805))
 	sut.SetExecBinary(legacyBinary)
 	sut.SetTestnetInitializer(systest.InitializerWithBinary(legacyBinary, sut))
 	sut.SetupChain()
