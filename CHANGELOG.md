@@ -20,6 +20,7 @@ Upstream synchronization milestones through the Cosmos EVM v0.6.0 era.
 - Retained Infinite-specific ante handling where upstream removed equivalent logic.
 
 - [\#758](https://github.com/cosmos/evm/pull/758) Cleanup precompiles abi.json.
+- [\#810](https://github.com/cosmos/evm/pull/810) Fix integration test suite to resolve lock contention problem from external app injection
 - [\#811](https://github.com/cosmos/evm/pull/811) Use sdk's DefaultBondDenom for default evm denom in genesis.
 
 ### FEATURES
