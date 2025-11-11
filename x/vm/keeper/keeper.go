@@ -171,9 +171,13 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 func (k *Keeper) WithDefaultEvmCoinInfo(coinInfo types.EvmCoinInfo) *Keeper {
 	k.defaultEvmCoinInfo = coinInfo
 <<<<<<< HEAD
+<<<<<<< HEAD
 	types.SetDefaultEvmCoinInfo(coinInfo)
 =======
 >>>>>>> 1fd8ef37 (fix: `evmCoinInfo` not exists in historical state (#790))
+=======
+	types.SetDefaultEvmCoinInfo(coinInfo)
+>>>>>>> 6de21f76 (fix: avoid nil pointer when RPC requests execute before evmCoinInfo init (#816))
 	return k
 }
 
