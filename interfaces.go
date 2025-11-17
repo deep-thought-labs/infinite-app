@@ -197,7 +197,6 @@ type (
 	}
 	GovPrecompileApp interface {
 		TestApp
-		FeeMarketKeeperProvider // Should be removed after refactoring test code
 		GovKeeperProvider
 	}
 	ICS20PrecompileApp interface {
@@ -220,7 +219,6 @@ type (
 		TestApp
 		AccountKeeperProvider
 		BankKeeperProvider
-		Erc20KeeperProvider // Should be removed after refactoring test code
 		StakingKeeperProvider
 	}
 	WERC20PrecompileApp interface {
