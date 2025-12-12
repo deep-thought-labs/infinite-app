@@ -154,7 +154,6 @@ type EVMD struct {
 	appCodec          codec.Codec
 	interfaceRegistry types.InterfaceRegistry
 	txConfig          client.TxConfig
-	clientCtx         client.Context
 
 	pendingTxListeners []evmante.PendingTxListener
 
@@ -1061,12 +1060,15 @@ func (app *EVMD) GetTxConfig() client.TxConfig {
 	return app.txConfig
 }
 
+<<<<<<< HEAD:infinited/app.go
 func (app *EVMD) SetClientCtx(clientCtx client.Context) { // TODO:VLAD - Remove this if possible
 	app.clientCtx = clientCtx
 }
 
 <<<<<<< HEAD:infinited/app.go
 =======
+=======
+>>>>>>> ad11ddc9 (fix: experimental EVM mempool not gossiping nonce + n transactions (#890)):evmd/app.go
 // Close unsubscribes from the CometBFT event bus (if set) and closes the mempool and underlying BaseApp.
 func (app *EVMD) Close() error {
 	var err error
