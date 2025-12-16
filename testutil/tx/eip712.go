@@ -76,7 +76,11 @@ func PrepareEIP712CosmosTx(
 	fee := legacytx.NewStdFee(txArgs.Gas, txArgs.Fees) //nolint:staticcheck // check against deprecated type
 
 	msgs := txArgs.Msgs
+<<<<<<< HEAD
 	data := legacytx.StdSignBytes(ctx.ChainID(), accNumber, nonce, 0, fee, msgs, "") //nolint:staticcheck // check against deprecated type
+=======
+	data := legacytx.StdSignBytes(ctx.ChainID(), accNumber, nonce, 0, fee, msgs, "") //nolint:staticcheck // TODO: fix
+>>>>>>> b07425e5 (chore: fix lint after bumping SDK and ibc (#908))
 
 	typedDataArgs := typedDataArgs{
 		chainID:        args.EVMChainID,

@@ -31,7 +31,11 @@ const consensusVersion = 1
 
 // type check to ensure the interface is properly implemented
 var (
+<<<<<<< HEAD
 	_ module.AppModule           = AppModule{} //nolint:staticcheck // check against deprecated type
+=======
+	_ module.AppModule           = AppModule{} //nolint:staticcheck // keep for legacy purposes
+>>>>>>> b07425e5 (chore: fix lint after bumping SDK and ibc (#908))
 	_ module.AppModuleBasic      = AppModuleBasic{}
 	_ module.AppModuleSimulation = AppModule{}
 

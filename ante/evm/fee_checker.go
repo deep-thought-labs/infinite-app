@@ -92,7 +92,11 @@ func FeeChecker(
 	}
 
 	feeCoins := feeTx.GetFee()
+<<<<<<< HEAD
 	feeAmtDec := sdkmath.LegacyNewDecFromInt(feeCoins.AmountOfNoDenomValidation(denom)) //nolint:staticcheck // checking legacy type
+=======
+	feeAmtDec := sdkmath.LegacyNewDecFromInt(feeCoins.AmountOfNoDenomValidation(denom)) //nolint:staticcheck // TODO: fix
+>>>>>>> b07425e5 (chore: fix lint after bumping SDK and ibc (#908))
 
 	feeCap := feeAmtDec.QuoInt(gas)
 	if feeCap.LT(baseFee) {

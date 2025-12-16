@@ -177,7 +177,11 @@ func VerifySignature(
 			return errorsmod.Wrap(errortypes.ErrNoSignatures, "tx doesn't contain any msgs to verify signature")
 		}
 
+<<<<<<< HEAD
 		txBytes := legacytx.StdSignBytes( //nolint:staticcheck // checking legacy type
+=======
+		txBytes := legacytx.StdSignBytes( //nolint:staticcheck // TODO: fix
+>>>>>>> b07425e5 (chore: fix lint after bumping SDK and ibc (#908))
 			signerData.ChainID,
 			signerData.AccountNumber,
 			signerData.Sequence,
