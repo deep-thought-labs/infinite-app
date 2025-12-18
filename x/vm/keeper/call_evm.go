@@ -7,9 +7,15 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core"
 	ethtypes "github.com/ethereum/go-ethereum/core/types"
+	"go.opentelemetry.io/otel/attribute"
+	"go.opentelemetry.io/otel/trace"
 
 	"github.com/cosmos/evm/server/config"
+<<<<<<< HEAD
 	"github.com/cosmos/evm/x/vm/statedb"
+=======
+	evmtrace "github.com/cosmos/evm/trace"
+>>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
 	"github.com/cosmos/evm/x/vm/types"
 
 	errorsmod "cosmossdk.io/errors"
@@ -31,8 +37,19 @@ func (k Keeper) CallEVM(
 	gasCap *big.Int,
 	method string,
 	args ...any,
+<<<<<<< HEAD
 ) (*types.MsgEthereumTxResponse, error) {
 >>>>>>> 3d3b5dda (nicee (#787))
+=======
+) (_ *types.MsgEthereumTxResponse, err error) {
+	ctx, span := ctx.StartSpan(tracer, "CallEVM", trace.WithAttributes(
+		attribute.String("from", from.Hex()),
+		attribute.String("contract", contract.Hex()),
+		attribute.String("method", method),
+		attribute.Bool("commit", commit),
+	))
+	defer func() { evmtrace.EndSpanErr(span, err) }()
+>>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
 	data, err := abi.Pack(method, args...)
 	if err != nil {
 		return nil, errorsmod.Wrap(
@@ -49,9 +66,31 @@ func (k Keeper) CallEVM(
 }
 
 // CallEVMWithData performs a smart contract method call using contract data.
+<<<<<<< HEAD
 // Note: if you call this from a precompile context, ensure that
 // you use the existing stateDB.
 func (k Keeper) CallEVMWithData(ctx sdk.Context, stateDB *statedb.StateDB, from common.Address, contract *common.Address, data []byte, commit bool, callFromPrecompile bool, gasCap *big.Int) (*types.MsgEthereumTxResponse, error) {
+=======
+func (k Keeper) CallEVMWithData(
+	ctx sdk.Context,
+	from common.Address,
+	contract *common.Address,
+	data []byte,
+	commit bool,
+	gasCap *big.Int,
+) (_ *types.MsgEthereumTxResponse, err error) {
+	contractAddr := ""
+	if contract != nil {
+		contractAddr = contract.Hex()
+	}
+	ctx, span := ctx.StartSpan(tracer, "CallEVMWithData", trace.WithAttributes(
+		attribute.String("from", from.Hex()),
+		attribute.String("contract", contractAddr),
+		attribute.Bool("commit", commit),
+		attribute.Int("data_size", len(data)),
+	))
+	defer func() { evmtrace.EndSpanErr(span, err) }()
+>>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
 	nonce, err := k.accountKeeper.GetSequence(ctx, from.Bytes())
 	if err != nil {
 		return nil, err
