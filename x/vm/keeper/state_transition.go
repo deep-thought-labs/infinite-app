@@ -416,9 +416,8 @@ func (k *Keeper) ApplyMessageWithConfig(
 ) (_ *types.MsgEthereumTxResponse, err error) {
 >>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
 	var (
-		ret          []byte // return bytes from evm execution
-		vmErr        error  // vm errors do not effect consensus and are therefore not assigned to err
-		floorDataGas uint64
+		ret   []byte // return bytes from evm execution
+		vmErr error  // vm errors do not effect consensus and are therefore not assigned to err
 	)
 <<<<<<< HEAD
 	if stateDB == nil {
@@ -481,7 +480,7 @@ func (k *Keeper) ApplyMessageWithConfig(
 		return nil, errorsmod.Wrap(core.ErrIntrinsicGas, "apply message")
 	}
 	if rules.IsPrague {
-		floorDataGas, err = core.FloorDataGas(msg.Data)
+		floorDataGas, err := core.FloorDataGas(msg.Data)
 		if err != nil {
 			return nil, err
 		}
@@ -547,6 +546,10 @@ func (k *Keeper) ApplyMessageWithConfig(
 		refundQuotient = params.RefundQuotientEIP3529
 	}
 
+	if internal {
+		refundQuotient = 1 // full refund on internal calls
+	}
+
 	// calculate gas refund
 	if msg.GasLimit < leftoverGas {
 		return nil, errorsmod.Wrap(types.ErrGasOverflow, "apply message")
@@ -558,20 +561,6 @@ func (k *Keeper) ApplyMessageWithConfig(
 	// update leftoverGas and temporaryGasUsed with refund amount
 	leftoverGas += refund
 	temporaryGasUsed := maxUsedGas - refund
-	if rules.IsPrague {
-		// After EIP-7623: Data-heavy transactions pay the floor gas.
-		if temporaryGasUsed < floorDataGas {
-			prev := leftoverGas
-			leftoverGas = msg.GasLimit - floorDataGas
-			temporaryGasUsed = floorDataGas
-			if vmCfg.Tracer != nil && vmCfg.Tracer.OnGasChange != nil {
-				vmCfg.Tracer.OnGasChange(prev, leftoverGas, tracing.GasChangeTxDataFloor)
-			}
-		}
-		if maxUsedGas < floorDataGas {
-			maxUsedGas = floorDataGas
-		}
-	}
 
 	// EVM execution error needs to be available for the JSON-RPC client
 	var vmError string

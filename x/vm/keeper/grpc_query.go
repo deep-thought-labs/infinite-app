@@ -339,7 +339,7 @@ func (k Keeper) EstimateGasInternal(c context.Context, req *types.EthCallRequest
 
 	// Binary search the gas requirement, as it may be higher than the amount used
 	var (
-		lo     uint64
+		lo     = ethparams.TxGas - 1
 		hi     uint64
 		gasCap uint64
 	)
@@ -442,6 +442,7 @@ func (k Keeper) EstimateGasInternal(c context.Context, req *types.EthCallRequest
 			tmpCtx = buildTraceCtx(tmpCtx, msg.GasLimit)
 		}
 <<<<<<< HEAD
+<<<<<<< HEAD
 		// pass false to not commit StateDB
 <<<<<<< HEAD
 		stateDB := statedb.New(tmpCtx, &k, txConfig)
@@ -454,6 +455,10 @@ func (k Keeper) EstimateGasInternal(c context.Context, req *types.EthCallRequest
 		// pass "internal" as true to avoid applying feemarketParams.MinGasMultiplier for gas estimation.
 		rsp, err = k.ApplyMessageWithConfig(tmpCtx, *msg, nil, false, cfg, txConfig, true, overrides)
 >>>>>>> e15a37d4 (fix: align gas estimation logic with go-ethereum v1.16.3 (#766))
+=======
+		// pass false to not commit StateDB
+		rsp, err = k.ApplyMessageWithConfig(tmpCtx, *msg, nil, false, cfg, txConfig, false, overrides)
+>>>>>>> d77f4827 (revert #766 (#946))
 		if err != nil {
 			if errors.Is(err, core.ErrIntrinsicGas) || errors.Is(err, core.ErrFloorDataGas) {
 				return true, nil, nil // Special case, raise gas limit
@@ -503,12 +508,6 @@ func (k Keeper) EstimateGasInternal(c context.Context, req *types.EthCallRequest
 		// If no larger allowance is available, fail fast
 		return nil, fmt.Errorf("gas required exceeds allowance (%d)", hi)
 	}
-	// For almost any transaction, the gas consumed by the unconstrained execution
-	// above lower-bounds the gas limit required for it to succeed. One exception
-	// is those that explicitly check gas remaining in order to execute within a
-	// given limit, but we probably don't want to return the lowest possible gas
-	// limit for these cases anyway.
-	lo = result.GasUsed - 1
 
 	// There's a fairly high chance for the transaction to execute successfully
 	// with gasLimit set to the first execution's usedGas + gasRefund. Explicitly
