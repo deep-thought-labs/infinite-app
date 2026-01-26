@@ -129,11 +129,11 @@ func newEthMsgTx(
 		templateDynamicFeeTx.Nonce = nonce
 
 		if data != nil {
-			templateAccessListTx.Data = data
+			templateDynamicFeeTx.Data = data
 		} else {
-			templateAccessListTx.Data = []byte{}
+			templateDynamicFeeTx.Data = []byte{}
 		}
-		templateAccessListTx.AccessList = accessList
+		templateDynamicFeeTx.AccessList = accessList
 		ethTx = ethtypes.NewTx(templateDynamicFeeTx)
 		baseFee = big.NewInt(3)
 	case ethtypes.SetCodeTxType:
@@ -317,7 +317,7 @@ func BenchmarkApplyMessageWithLegacyTx(b *testing.B) {
 			addr,
 			krSigner,
 			signer,
-			ethtypes.AccessListTxType,
+			ethtypes.LegacyTxType,
 			nil,
 			nil,
 			nil,
