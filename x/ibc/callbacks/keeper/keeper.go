@@ -391,6 +391,7 @@ func (k ContractKeeper) IBCOnTimeoutPacketCallback(
 		return nil
 	}
 
+<<<<<<< HEAD
 	// `ProcessCallback` in IBC-Go overrides the infinite gas meter with a basic gas meter,
 	// so we need to generate a new infinite gas meter to run the EVM executions on.
 	// Skipping this causes the EVM gas estimation function to deplete all Cosmos gas.
@@ -401,6 +402,8 @@ func (k ContractKeeper) IBCOnTimeoutPacketCallback(
 		WithGasMeter(evmtypes.NewInfiniteGasMeterWithLimit(cbData.CommitGasLimit))
 	stateDB := statedb.New(cachedCtx, k.evmKeeper, statedb.NewEmptyTxConfig())
 
+=======
+>>>>>>> 83a3a6c7 (fix: gas accounting in ibc callback (#965))
 	if len(cbData.Calldata) != 0 {
 		return errorsmod.Wrap(types.ErrInvalidCalldata, "timeout callback data should not contain calldata")
 	}
@@ -420,6 +423,7 @@ func (k ContractKeeper) IBCOnTimeoutPacketCallback(
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	abi, err := callbacksabi.LoadABI()
 	if err != nil {
 		return err
@@ -429,13 +433,25 @@ func (k ContractKeeper) IBCOnTimeoutPacketCallback(
 =======
 	res, err := k.evmKeeper.CallEVM(ctx, callbacksabi.ABI, sender, contractAddr, true, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketTimeout",
 >>>>>>> 399869b4 (chore(precompiles)!: use pure abi in abi.json (#758))
+=======
+	// `ProcessCallback` in IBC-Go overrides the infinite gas meter with a basic gas meter,
+	// so we need to generate a new infinite gas meter to run the EVM executions on.
+	// Skipping this causes the EVM gas estimation function to deplete all Cosmos gas.
+	// We re-add the actual EVM call gas used to the original context after the call is complete
+	// with the gas retrieved from the EVM message result.
+	cachedCtx, writeFn := ctx.CacheContext()
+	cachedCtx = evmante.BuildEvmExecutionCtx(cachedCtx).
+		WithGasMeter(evmtypes.NewInfiniteGasMeterWithLimit(cbData.CommitGasLimit))
+
+	res, err := k.evmKeeper.CallEVM(cachedCtx, callbacksabi.ABI, sender, contractAddr, true, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketTimeout",
+>>>>>>> 83a3a6c7 (fix: gas accounting in ibc callback (#965))
 		packet.GetSourceChannel(), packet.GetSourcePort(), packet.GetSequence(), packet.GetData())
 	if err != nil {
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "EVM returned error: %s", err.Error())
 	}
 
 	// Consume the actual gas used on the original callback context.
-	ctx.GasMeter().ConsumeGas(res.GasUsed, "callback onPacketAcknowledgement")
+	ctx.GasMeter().ConsumeGas(res.GasUsed, "callback onTimeoutPacket")
 	if ctx.GasMeter().IsOutOfGas() {
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "out of gas")
 	}
