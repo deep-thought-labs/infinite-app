@@ -11,11 +11,11 @@ import (
 >>>>>>> a0a98b98 (refactor: systemtests (#720)):evmd/upgrades.go
 
 	storetypes "cosmossdk.io/store/types"
-	upgradetypes "cosmossdk.io/x/upgrade/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
 
 // UpgradeName defines the on-chain upgrade name for the sample EVMD upgrade

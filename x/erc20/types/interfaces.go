@@ -16,8 +16,12 @@ import (
 	"github.com/cosmos/ibc-go/v10/modules/core/exported"
 
 	"cosmossdk.io/core/address"
+<<<<<<< HEAD
 	"cosmossdk.io/log"
 	storetypes "cosmossdk.io/store/types"
+=======
+	"cosmossdk.io/log/v2"
+>>>>>>> 1651ab92 (chore: update to main and updated ibc (#1003))
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"

@@ -7,7 +7,7 @@ import (
 	transferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
 
 	"cosmossdk.io/core/address"
-	"cosmossdk.io/log"
+	"cosmossdk.io/log/v2"
 	storetypes "cosmossdk.io/store/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"

@@ -20,8 +20,12 @@ import (
 >>>>>>> 18163be6 (refactor(config): remove evmAppOptions entirely (#661))
 	evmtypes "github.com/cosmos/evm/x/vm/types"
 
+<<<<<<< HEAD
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/log"
+=======
+	"cosmossdk.io/log/v2"
+>>>>>>> 1651ab92 (chore: update to main and updated ibc (#1003))
 	"cosmossdk.io/math"
 
 	"github.com/cosmos/cosmos-sdk/client"
