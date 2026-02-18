@@ -2,6 +2,7 @@ package vm
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
 
@@ -78,7 +79,11 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 		from     common.Address
 		malleate func() []byte
 		deploy   bool
+<<<<<<< HEAD
 		useNilDB bool
+=======
+		gasCap   *big.Int
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 		expPass  bool
 		expError string
 	}{
@@ -90,10 +95,16 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				data, _ := erc20.Pack("", account)
 				return data
 			},
+<<<<<<< HEAD
 			deploy:   false,
 			useNilDB: false,
 			expPass:  true,
 			expError: "",
+=======
+			false,
+			nil,
+			true,
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 		},
 		{
 			name: "pass",
@@ -103,6 +114,7 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				data, _ := erc20.Pack("balanceOf", account)
 				return data
 			},
+<<<<<<< HEAD
 			deploy:   false,
 			useNilDB: false,
 			expPass:  true,
@@ -118,6 +130,33 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			useNilDB: false,
 			expPass:  true,
 			expError: "",
+=======
+			false,
+			nil,
+			true,
+		},
+		{
+			"fail with small gas cap",
+			types.ModuleAddress,
+			func() []byte {
+				account := utiltx.GenerateAddress()
+				data, _ := erc20.Pack("balanceOf", account)
+				return data
+			},
+			false,
+			big.NewInt(1),
+			false,
+		},
+		{
+			"pass with empty data",
+			types.ModuleAddress,
+			func() []byte {
+				return []byte{}
+			},
+			false,
+			nil,
+			true,
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 		},
 		{
 			name: "fail empty sender",
@@ -125,10 +164,16 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			malleate: func() []byte {
 				return []byte{}
 			},
+<<<<<<< HEAD
 			deploy:   false,
 			useNilDB: false,
 			expPass:  false,
 			expError: "",
+=======
+			false,
+			nil,
+			false,
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 		},
 		{
 			name: "fail with nil statedb",
@@ -151,10 +196,16 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				data := append(contracts.ERC20MinterBurnerDecimalsContract.Bin, ctorArgs...) //nolint:gocritic
 				return data
 			},
+<<<<<<< HEAD
 			deploy:   true,
 			useNilDB: false,
 			expPass:  true,
 			expError: "",
+=======
+			true,
+			nil,
+			true,
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 		},
 		{
 			name: "fail deploy",
@@ -169,6 +220,7 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				data := append(contracts.ERC20MinterBurnerDecimalsContract.Bin, ctorArgs...) //nolint:gocritic
 				return data
 			},
+<<<<<<< HEAD
 			deploy:   true,
 			useNilDB: false,
 			expPass:  false,
@@ -186,6 +238,11 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			useNilDB: true,
 			expPass:  false,
 			expError: "stateDB cannot be nil",
+=======
+			true,
+			nil,
+			false,
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 		},
 	}
 
@@ -203,9 +260,15 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			}
 
 			if tc.deploy {
+<<<<<<< HEAD
 				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), stateDB, tc.from, nil, data, true, false, nil)
 			} else {
 				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), stateDB, tc.from, &wcosmosEVMContract, data, false, false, nil)
+=======
+				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), tc.from, nil, data, true, tc.gasCap)
+			} else {
+				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), tc.from, &wcosmosEVMContract, data, false, tc.gasCap)
+>>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
 			}
 
 			if tc.expPass {
