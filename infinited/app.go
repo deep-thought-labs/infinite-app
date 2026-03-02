@@ -40,10 +40,13 @@ import (
 	"github.com/cosmos/evm/x/ibc/transfer"
 	transferkeeper "github.com/cosmos/evm/x/ibc/transfer/keeper"
 	transferv2 "github.com/cosmos/evm/x/ibc/transfer/v2"
+<<<<<<< HEAD:infinited/app.go
 >>>>>>> b07425e5 (chore: fix lint after bumping SDK and ibc (#908)):evmd/app.go
 	"github.com/cosmos/evm/x/precisebank"
 	precisebankkeeper "github.com/cosmos/evm/x/precisebank/keeper"
 	precisebanktypes "github.com/cosmos/evm/x/precisebank/types"
+=======
+>>>>>>> c7a849ee (chore!: Remove x/precisebank (#1019)):evmd/app.go
 	"github.com/cosmos/evm/x/vm"
 	evmkeeper "github.com/cosmos/evm/x/vm/keeper"
 	evmtypes "github.com/cosmos/evm/x/vm/types"
@@ -187,11 +190,10 @@ type EVMD struct {
 	CallbackKeeper ibccallbackskeeper.ContractKeeper
 
 	// Cosmos EVM keepers
-	FeeMarketKeeper   feemarketkeeper.Keeper
-	EVMKeeper         *evmkeeper.Keeper
-	Erc20Keeper       erc20keeper.Keeper
-	PreciseBankKeeper precisebankkeeper.Keeper
-	EVMMempool        *evmmempool.ExperimentalEVMMempool
+	FeeMarketKeeper feemarketkeeper.Keeper
+	EVMKeeper       *evmkeeper.Keeper
+	Erc20Keeper     erc20keeper.Keeper
+	EVMMempool      *evmmempool.ExperimentalEVMMempool
 
 	// the module manager
 	ModuleManager      *module.Manager
@@ -242,7 +244,7 @@ func NewExampleApp(
 		// ibc keys
 		ibcexported.StoreKey, ibctransfertypes.StoreKey,
 		// Cosmos EVM store keys
-		evmtypes.StoreKey, feemarkettypes.StoreKey, erc20types.StoreKey, precisebanktypes.StoreKey,
+		evmtypes.StoreKey, feemarkettypes.StoreKey, erc20types.StoreKey,
 	)
 	oKeys := storetypes.NewObjectStoreKeys(banktypes.ObjectStoreKey, evmtypes.ObjectKey)
 
@@ -441,16 +443,6 @@ func NewExampleApp(
 		keys[feemarkettypes.StoreKey],
 	)
 
-	// Set up PreciseBank keeper
-	//
-	// NOTE: PreciseBank is not needed if SDK use 18 decimals for gas coin. Use BankKeeper instead.
-	app.PreciseBankKeeper = precisebankkeeper.NewKeeper(
-		appCodec,
-		keys[precisebanktypes.StoreKey],
-		app.BankKeeper,
-		app.AccountKeeper,
-	)
-
 	// Set up EVM keeper
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
 
@@ -460,7 +452,7 @@ func NewExampleApp(
 		appCodec, keys[evmtypes.StoreKey], oKeys[evmtypes.ObjectKey], nonTransientKeys,
 		authtypes.NewModuleAddress(govtypes.ModuleName),
 		app.AccountKeeper,
-		app.PreciseBankKeeper,
+		app.BankKeeper,
 		app.StakingKeeper,
 		app.FeeMarketKeeper,
 		&app.ConsensusParamsKeeper,
@@ -471,7 +463,7 @@ func NewExampleApp(
 		precompiletypes.DefaultStaticPrecompiles(
 			*app.StakingKeeper,
 			app.DistrKeeper,
-			app.PreciseBankKeeper,
+			app.BankKeeper,
 			&app.Erc20Keeper,
 			&app.TransferKeeper,
 			app.IBCKeeper.ChannelKeeper,
@@ -487,7 +479,7 @@ func NewExampleApp(
 		appCodec,
 		authtypes.NewModuleAddress(govtypes.ModuleName),
 		app.AccountKeeper,
-		app.PreciseBankKeeper,
+		app.BankKeeper,
 		app.EVMKeeper,
 		app.StakingKeeper,
 		&app.TransferKeeper,
@@ -588,7 +580,6 @@ func NewExampleApp(
 		vm.NewAppModule(app.EVMKeeper, app.AccountKeeper, app.BankKeeper, app.AccountKeeper.AddressCodec()),
 		feemarket.NewAppModule(app.FeeMarketKeeper),
 		erc20.NewAppModule(app.Erc20Keeper, app.AccountKeeper),
-		precisebank.NewAppModule(app.PreciseBankKeeper, app.BankKeeper, app.AccountKeeper),
 	)
 
 	// BasicModuleManager defines the module BasicManager which is in charge of setting up basic,
@@ -636,7 +627,6 @@ func NewExampleApp(
 		authtypes.ModuleName, banktypes.ModuleName, govtypes.ModuleName, genutiltypes.ModuleName,
 		authz.ModuleName, feegrant.ModuleName,
 		consensusparamtypes.ModuleName,
-		precisebanktypes.ModuleName,
 		vestingtypes.ModuleName,
 	)
 
@@ -657,7 +647,6 @@ func NewExampleApp(
 		slashingtypes.ModuleName, minttypes.ModuleName,
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
 		feegrant.ModuleName, upgradetypes.ModuleName, consensusparamtypes.ModuleName,
-		precisebanktypes.ModuleName,
 		vestingtypes.ModuleName,
 	)
 
@@ -677,7 +666,6 @@ func NewExampleApp(
 		evmtypes.ModuleName,
 		feemarkettypes.ModuleName,
 		erc20types.ModuleName,
-		precisebanktypes.ModuleName,
 
 		ibctransfertypes.ModuleName,
 		genutiltypes.ModuleName, evidencetypes.ModuleName, authz.ModuleName,
@@ -1044,10 +1032,6 @@ func (app *EVMD) GetStakingKeeper() *stakingkeeper.Keeper {
 
 func (app *EVMD) GetMintKeeper() mintkeeper.Keeper {
 	return app.MintKeeper
-}
-
-func (app *EVMD) GetPreciseBankKeeper() *precisebankkeeper.Keeper {
-	return &app.PreciseBankKeeper
 }
 
 func (app *EVMD) GetCallbackKeeper() ibccallbackskeeper.ContractKeeper {

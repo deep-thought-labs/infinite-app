@@ -6,7 +6,11 @@ import (
 	erc20keeper "github.com/cosmos/evm/x/erc20/keeper"
 	feemarketkeeper "github.com/cosmos/evm/x/feemarket/keeper"
 	"github.com/cosmos/evm/x/ibc/callbacks/keeper"
+<<<<<<< HEAD
 	precisebankkeeper "github.com/cosmos/evm/x/precisebank/keeper"
+=======
+	transferkeeper "github.com/cosmos/evm/x/ibc/transfer/keeper"
+>>>>>>> c7a849ee (chore!: Remove x/precisebank (#1019))
 	evmkeeper "github.com/cosmos/evm/x/vm/keeper"
 <<<<<<< HEAD
 	transferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
@@ -79,7 +83,6 @@ type EvmApp interface { //nolint:revive
 	MempoolProvider
 	MintKeeperProvider
 	MsgServiceRouterProvider
-	PreciseBankKeeperProvider
 	SlashingKeeperProvider
 	TransferKeeperProvider
 	TransferKeeperSetter
@@ -145,9 +148,6 @@ type (
 	MsgServiceRouterProvider interface {
 		MsgServiceRouter() *baseapp.MsgServiceRouter
 	}
-	PreciseBankKeeperProvider interface {
-		GetPreciseBankKeeper() *precisebankkeeper.Keeper
-	}
 	SlashingKeeperProvider interface {
 		GetSlashingKeeper() slashingkeeper.Keeper
 	}
@@ -192,7 +192,6 @@ type (
 		AccountKeeperProvider
 		BankKeeperProvider
 		Erc20KeeperProvider
-		PreciseBankKeeperProvider
 		TransferKeeperProvider
 	}
 	GovPrecompileApp interface {
@@ -239,7 +238,6 @@ type (
 		FeeMarketKeeperProvider
 		GovKeeperProvider
 		MintKeeperProvider
-		PreciseBankKeeperProvider
 		SlashingKeeperProvider
 		EvidenceKeeperProvider
 	}
