@@ -337,11 +337,17 @@ func (k *Keeper) ApplyTransaction(ctx sdk.Context, tx *ethtypes.Transaction) (_ 
 
 // ApplyMessage calls ApplyMessageWithConfig with an empty TxConfig.
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Note: if you call this from a precompile context, ensure that
 // you use the existing stateDB.
 func (k *Keeper) ApplyMessage(ctx sdk.Context, stateDB *statedb.StateDB, msg core.Message, tracer *tracing.Hooks, commit, callFromPrecompile, internal bool) (*types.MsgEthereumTxResponse, error) {
 =======
 func (k *Keeper) ApplyMessage(ctx sdk.Context, msg core.Message, tracingHooks *tracing.Hooks, commit bool, internal bool) (*types.MsgEthereumTxResponse, error) {
+=======
+// Note: if you call this from a precompile context, ensure that
+// you use the existing stateDB.
+func (k *Keeper) ApplyMessage(ctx sdk.Context, stateDB *statedb.StateDB, msg core.Message, tracingHooks *tracing.Hooks, commit, callFromPrecompile, internal bool) (*types.MsgEthereumTxResponse, error) {
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	ctx, span := ctx.StartSpan(tracer, "ApplyMessage", trace.WithAttributes(
 		attribute.Bool("commit", commit),
 		attribute.Bool("internal", internal),
@@ -356,10 +362,14 @@ func (k *Keeper) ApplyMessage(ctx sdk.Context, msg core.Message, tracingHooks *t
 
 	txConfig := statedb.NewEmptyTxConfig()
 <<<<<<< HEAD
+<<<<<<< HEAD
 	return k.ApplyMessageWithConfig(ctx, stateDB, msg, tracer, commit, callFromPrecompile, cfg, txConfig, internal, nil)
 =======
 	return k.ApplyMessageWithConfig(ctx, msg, tracingHooks, commit, cfg, txConfig, internal, nil)
 >>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
+=======
+	return k.ApplyMessageWithConfig(ctx, stateDB, msg, tracingHooks, commit, callFromPrecompile, cfg, txConfig, internal, nil)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 }
 
 // ApplyMessageWithConfig computes the new state by applying the given message against the existing state.
@@ -400,6 +410,7 @@ func (k *Keeper) ApplyMessage(ctx sdk.Context, msg core.Message, tracingHooks *t
 // # Commit parameter
 //
 <<<<<<< HEAD
+<<<<<<< HEAD
 // If commit is true, the `StateDB` will be committed or flushed (if called from within a precompile), otherwise discarded.
 func (k *Keeper) ApplyMessageWithConfig(ctx sdk.Context, stateDB *statedb.StateDB, msg core.Message, tracer *tracing.Hooks, commit bool, callFromPrecompile bool, cfg *statedb.EVMConfig, txConfig statedb.TxConfig, internal bool, overrides *rpctypes.StateOverride) (*types.MsgEthereumTxResponse, error) {
 =======
@@ -415,6 +426,10 @@ func (k *Keeper) ApplyMessageWithConfig(
 	overrides *rpctypes.StateOverride,
 ) (_ *types.MsgEthereumTxResponse, err error) {
 >>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
+=======
+// If commit is true, the `StateDB` will be committed or flushed (if called from within a precompile), otherwise discarded.
+func (k *Keeper) ApplyMessageWithConfig(ctx sdk.Context, stateDB *statedb.StateDB, msg core.Message, tracingHooks *tracing.Hooks, commit bool, callFromPrecompile bool, cfg *statedb.EVMConfig, txConfig statedb.TxConfig, internal bool, overrides *rpctypes.StateOverride) (_ *types.MsgEthereumTxResponse, err error) {
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	var (
 		ret   []byte // return bytes from evm execution
 		vmErr error  // vm errors do not effect consensus and are therefore not assigned to err
@@ -433,8 +448,14 @@ func (k *Keeper) ApplyMessageWithConfig(
 	))
 	defer func() { evmtrace.EndSpanErr(span, err) }()
 
+<<<<<<< HEAD
 	stateDB := statedb.New(ctx, k, txConfig)
 >>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
+=======
+	if stateDB == nil {
+		return nil, types.ErrNilStateDB
+	}
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	ethCfg := types.GetEthChainConfig()
 	evm := k.NewEVMWithOverridePrecompiles(ctx, msg, cfg, tracingHooks, stateDB, overrides == nil)
 	// Gas limit suffices for the floor data cost (EIP-7623)

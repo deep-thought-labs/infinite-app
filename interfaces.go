@@ -7,6 +7,7 @@ import (
 	feemarketkeeper "github.com/cosmos/evm/x/feemarket/keeper"
 	"github.com/cosmos/evm/x/ibc/callbacks/keeper"
 <<<<<<< HEAD
+<<<<<<< HEAD
 	precisebankkeeper "github.com/cosmos/evm/x/precisebank/keeper"
 =======
 	transferkeeper "github.com/cosmos/evm/x/ibc/transfer/keeper"
@@ -15,6 +16,10 @@ import (
 <<<<<<< HEAD
 	transferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
 =======
+=======
+	evmkeeper "github.com/cosmos/evm/x/vm/keeper"
+	transferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
 >>>>>>> ee238285 (refactor(test): separate test app interface (#829))
 	ibctesting "github.com/cosmos/ibc-go/v10/testing"
@@ -155,10 +160,10 @@ type (
 		GetStakingKeeper() *stakingkeeper.Keeper
 	}
 	TransferKeeperProvider interface {
-		GetTransferKeeper() transferkeeper.Keeper
+		GetTransferKeeper() *transferkeeper.Keeper
 	}
 	TransferKeeperSetter interface {
-		SetTransferKeeper(transferkeeper.Keeper)
+		SetTransferKeeper(*transferkeeper.Keeper)
 	}
 )
 

@@ -30,8 +30,11 @@ import (
 
 // Event count constants for test assertions
 const (
+<<<<<<< HEAD:infinited/tests/ibc/helper.go
 	PreciseBankMintEventCount     = 9  // Native transfer with mint operation
 	PreciseBankBurnEventCount     = 9  // Native transfer with burn operation
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/tests/ibc/helper.go
 	DelegationEventCount          = 3  // Staking delegation events
 	EVMEventCount                 = 5  // EVM transaction wrapper events
 	WithdrawalNoTokensEventCount  = 1  // Withdrawal with no tokens
@@ -102,11 +105,14 @@ func SetupNativeErc20(t *testing.T, chain *evmibctesting.TestChain, senderAcc ev
 	}
 
 	// Verify minted balance
+	stateDB = statedb.New(evmCtx, evmApp.GetEVMKeeper(), statedb.NewEmptyTxConfig())
 	ethRes, err := evmApp.GetEVMKeeper().CallEVM(
 		evmCtx,
+		stateDB,
 		contractAbi,
 		common.BytesToAddress(senderAddr),
 		contractAddr,
+		false,
 		false,
 		nil,
 		"balanceOf",

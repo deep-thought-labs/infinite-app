@@ -457,8 +457,13 @@ func (k Keeper) EstimateGasInternal(c context.Context, req *types.EthCallRequest
 >>>>>>> e15a37d4 (fix: align gas estimation logic with go-ethereum v1.16.3 (#766))
 =======
 		// pass false to not commit StateDB
+<<<<<<< HEAD
 		rsp, err = k.ApplyMessageWithConfig(tmpCtx, *msg, nil, false, cfg, txConfig, false, overrides)
 >>>>>>> d77f4827 (revert #766 (#946))
+=======
+		stateDB := statedb.New(tmpCtx, &k, txConfig)
+		rsp, err = k.ApplyMessageWithConfig(tmpCtx, stateDB, *msg, nil, false, false, cfg, txConfig, false, overrides)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		if err != nil {
 			if errors.Is(err, core.ErrIntrinsicGas) || errors.Is(err, core.ErrFloorDataGas) {
 				return true, nil, nil // Special case, raise gas limit
@@ -917,11 +922,16 @@ func (k *Keeper) traceTxWithMsg(
 	// Build EVM execution context
 	ctx = buildTraceCtx(ctx, msg.GasLimit)
 <<<<<<< HEAD
+<<<<<<< HEAD
 	stateDB := statedb.New(ctx, k, txConfig)
 	res, err := k.ApplyMessageWithConfig(ctx, stateDB, *msg, tracer.Hooks, commitMessage, false, cfg, txConfig, false, nil)
 =======
 	_, err = k.ApplyMessageWithConfig(ctx, *msg, tracer.Hooks, commitMessage, cfg, txConfig, false, nil)
 >>>>>>> 79bcc14f (feat!: Block STM (#589))
+=======
+	stateDB := statedb.New(ctx, k, txConfig)
+	_, err = k.ApplyMessageWithConfig(ctx, stateDB, *msg, tracer.Hooks, commitMessage, false, cfg, txConfig, false, nil)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

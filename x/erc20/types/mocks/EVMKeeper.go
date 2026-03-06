@@ -62,16 +62,22 @@ func (_m *EVMKeeper) ApplyMessage(ctx types.Context, stateDB *statedb.StateDB, m
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 // CallEVM provides a mock function with given fields: ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args
 func (_m *EVMKeeper) CallEVM(ctx types.Context, stateDB *statedb.StateDB, _a2 abi.ABI, from common.Address, contract common.Address, commit bool, callFromPrecompile bool, gasCap *big.Int, method string, args ...interface{}) (*vmtypes.MsgEthereumTxResponse, error) {
 	var _ca []interface{}
 	_ca = append(_ca, ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method)
+<<<<<<< HEAD
 =======
 // CallEVM provides a mock function with given fields: ctx, _a1, from, contract, commit, gasCap, method, args
 func (_m *EVMKeeper) CallEVM(ctx types.Context, _a1 abi.ABI, from common.Address, contract common.Address, commit bool, gasCap *big.Int, method string, args ...any) (*vmtypes.MsgEthereumTxResponse, error) {
 	var _ca []any
 	_ca = append(_ca, ctx, _a1, from, contract, commit, gasCap, method)
 >>>>>>> 3d3b5dda (nicee (#787))
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	_ca = append(_ca, args...)
 	ret := _m.Called(_ca...)
 
@@ -81,6 +87,7 @@ func (_m *EVMKeeper) CallEVM(ctx types.Context, _a1 abi.ABI, from common.Address
 
 	var r0 *vmtypes.MsgEthereumTxResponse
 	var r1 error
+<<<<<<< HEAD
 <<<<<<< HEAD
 	if rf, ok := ret.Get(0).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) (*vmtypes.MsgEthereumTxResponse, error)); ok {
 		return rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
@@ -94,6 +101,13 @@ func (_m *EVMKeeper) CallEVM(ctx types.Context, _a1 abi.ABI, from common.Address
 	if rf, ok := ret.Get(0).(func(types.Context, abi.ABI, common.Address, common.Address, bool, *big.Int, string, ...any) *vmtypes.MsgEthereumTxResponse); ok {
 		r0 = rf(ctx, _a1, from, contract, commit, gasCap, method, args...)
 >>>>>>> 3d3b5dda (nicee (#787))
+=======
+	if rf, ok := ret.Get(0).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) (*vmtypes.MsgEthereumTxResponse, error)); ok {
+		return rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
+	}
+	if rf, ok := ret.Get(0).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) *vmtypes.MsgEthereumTxResponse); ok {
+		r0 = rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*vmtypes.MsgEthereumTxResponse)
@@ -101,12 +115,17 @@ func (_m *EVMKeeper) CallEVM(ctx types.Context, _a1 abi.ABI, from common.Address
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	if rf, ok := ret.Get(1).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) error); ok {
 		r1 = rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
 =======
 	if rf, ok := ret.Get(1).(func(types.Context, abi.ABI, common.Address, common.Address, bool, *big.Int, string, ...any) error); ok {
 		r1 = rf(ctx, _a1, from, contract, commit, gasCap, method, args...)
 >>>>>>> 3d3b5dda (nicee (#787))
+=======
+	if rf, ok := ret.Get(1).(func(types.Context, *statedb.StateDB, abi.ABI, common.Address, common.Address, bool, bool, *big.Int, string, ...interface{}) error); ok {
+		r1 = rf(ctx, stateDB, _a2, from, contract, commit, callFromPrecompile, gasCap, method, args...)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -362,19 +381,32 @@ func (_m *EVMKeeper) IsContract(ctx types.Context, address common.Address) bool 
 }
 
 // KVStoreKeys provides a mock function with no fields
+<<<<<<< HEAD
 func (_m *EVMKeeper) KVStoreKeys() map[string]*storetypes.KVStoreKey {
+=======
+func (_m *EVMKeeper) KVStoreKeys() map[string]storetypes.StoreKey {
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	ret := _m.Called()
 
 	if len(ret) == 0 {
 		panic("no return value specified for KVStoreKeys")
 	}
 
+<<<<<<< HEAD
 	var r0 map[string]*storetypes.KVStoreKey
 	if rf, ok := ret.Get(0).(func() map[string]*storetypes.KVStoreKey); ok {
 		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(map[string]*storetypes.KVStoreKey)
+=======
+	var r0 map[string]storetypes.StoreKey
+	if rf, ok := ret.Get(0).(func() map[string]storetypes.StoreKey); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(map[string]storetypes.StoreKey)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		}
 	}
 

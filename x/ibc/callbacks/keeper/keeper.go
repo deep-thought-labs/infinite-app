@@ -327,10 +327,14 @@ func (k ContractKeeper) IBCOnAcknowledgementPacketCallback(
 	// Call the onPacketAcknowledgement function in the contract
 	// NOTE: use the cached ctx for the EVM calls.
 <<<<<<< HEAD
+<<<<<<< HEAD
 	res, err := k.evmKeeper.CallEVM(cachedCtx, stateDB, *abi, sender, contractAddr, true, false, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketAcknowledgement",
 =======
 	res, err := k.evmKeeper.CallEVM(cachedCtx, callbacksabi.ABI, sender, contractAddr, true, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketAcknowledgement",
 >>>>>>> 399869b4 (chore(precompiles)!: use pure abi in abi.json (#758))
+=======
+	res, err := k.evmKeeper.CallEVM(cachedCtx, stateDB, callbacksabi.ABI, sender, contractAddr, true, false, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketAcknowledgement",
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		packet.GetSourceChannel(), packet.GetSourcePort(), packet.GetSequence(), packet.GetData(), acknowledgement)
 	if err != nil {
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "EVM returned error: %s", err.Error())
@@ -452,9 +456,14 @@ func (k ContractKeeper) IBCOnTimeoutPacketCallback(
 	cachedCtx, writeFn := ctx.CacheContext()
 	cachedCtx = evmante.BuildEvmExecutionCtx(cachedCtx).
 		WithGasMeter(evmtypes.NewInfiniteGasMeterWithLimit(cbData.CommitGasLimit))
+	stateDB := statedb.New(cachedCtx, k.evmKeeper, statedb.NewEmptyTxConfig())
 
+<<<<<<< HEAD
 	res, err := k.evmKeeper.CallEVM(cachedCtx, callbacksabi.ABI, sender, contractAddr, true, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketTimeout",
 >>>>>>> 83a3a6c7 (fix: gas accounting in ibc callback (#965))
+=======
+	res, err := k.evmKeeper.CallEVM(ctx, stateDB, callbacksabi.ABI, sender, contractAddr, true, false, math.NewIntFromUint64(cachedCtx.GasMeter().GasRemaining()).BigInt(), "onPacketTimeout",
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		packet.GetSourceChannel(), packet.GetSourcePort(), packet.GetSequence(), packet.GetData())
 	if err != nil {
 		return errorsmod.Wrapf(types.ErrCallbackFailed, "EVM returned error: %s", err.Error())

@@ -246,7 +246,7 @@ func (suite *StateDBTestSuite) TestDBError() {
 		suite.Require().Error(db.Commit())
 =======
 		suite.Run(tc.name, func() {
-			db := statedb.New(sdk.Context{}, mocks.NewEVMKeeper(), emptyTxConfig)
+			db := statedb.New(sdk.Context{}.WithEventManager(sdk.NewEventManager()), mocks.NewEVMKeeper(), emptyTxConfig)
 			tc.malleate(db)
 			suite.Require().Error(db.Commit())
 		})

@@ -86,8 +86,12 @@ func DefaultStaticPrecompiles(
 		WithICS20Precompile(bankKeeper, stakingKeeper, transferKeeper, channelKeeper, erc20Keeper).
 =======
 		WithICS02Precompile(codec, clientKeeper).
+<<<<<<< HEAD
 		WithICS20Precompile(bankKeeper, stakingKeeper, transferKeeper, channelKeeper).
 >>>>>>> f6d50b4d (feat(precompiles)!: added ics02 client router precompile (#768))
+=======
+		WithICS20Precompile(bankKeeper, stakingKeeper, transferKeeper, channelKeeper, erc20Keeper).
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		WithBankPrecompile(bankKeeper, erc20Keeper).
 		WithGovPrecompile(govKeeper, bankKeeper, codec, opts...).
 		WithSlashingPrecompile(slashingKeeper, bankKeeper, opts...)

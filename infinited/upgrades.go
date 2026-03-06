@@ -2,6 +2,7 @@ package evmd
 
 import (
 	"context"
+<<<<<<< HEAD:infinited/upgrades.go
 
 <<<<<<< HEAD:infinited/upgrades.go
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -10,11 +11,12 @@ import (
 	"github.com/cosmos/evm/x/vm/types"
 >>>>>>> a0a98b98 (refactor: systemtests (#720)):evmd/upgrades.go
 
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/upgrades.go
 	storetypes "cosmossdk.io/store/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 )
 
@@ -32,6 +34,7 @@ func (app EVMD) RegisterUpgradeHandlers() {
 		func(ctx context.Context, _ upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
 			sdkCtx := sdk.UnwrapSDKContext(ctx)
 			sdkCtx.Logger().Debug("this is a debug level message to test that verbose logging mode has properly been enabled during a chain upgrade")
+<<<<<<< HEAD:infinited/upgrades.go
 <<<<<<< HEAD:infinited/upgrades.go
 =======
 
@@ -74,6 +77,8 @@ func (app EVMD) RegisterUpgradeHandlers() {
 				return nil, err
 			}
 >>>>>>> a0a98b98 (refactor: systemtests (#720)):evmd/upgrades.go
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/upgrades.go
 			return app.ModuleManager.RunMigrations(ctx, app.Configurator(), fromVM)
 		},
 	)

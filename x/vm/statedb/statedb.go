@@ -438,7 +438,11 @@ func (s *StateDB) setStateObject(object *stateObject) {
 // to the precompile call.
 func (s *StateDB) AddPrecompileFn(snapshot int) error {
 	// Capture events before the precompile call
+<<<<<<< HEAD
 	var prevEvents sdk.Events = s.cacheCtx.EventManager().Events()
+=======
+	prevEvents := s.cacheCtx.EventManager().Events()
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 
 	s.journal.append(precompileCallChange{
 		snapshot:                snapshot,
@@ -724,6 +728,9 @@ func (s *StateDB) Commit() error {
 // This function is used before any precompile call to make sure the cacheCtx
 // is updated with the latest changes within the tx (StateDB's journal entries).
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 func (s *StateDB) FlushToCacheCtx() error {
 	if err := s.commitWithCtx(s.cacheCtx); err != nil {
 		return err
@@ -734,6 +741,7 @@ func (s *StateDB) FlushToCacheCtx() error {
 	s.processedEventsCount = len(s.cacheCtx.EventManager().Events())
 
 	return nil
+<<<<<<< HEAD
 =======
 func (s *StateDB) CommitWithCacheCtx() error {
 <<<<<<< HEAD
@@ -742,6 +750,8 @@ func (s *StateDB) CommitWithCacheCtx() error {
 =======
 	return s.commitWithCtx(s.cacheCtx)
 >>>>>>> d77f4827 (revert #766 (#946))
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 }
 
 // commitWithCtx writes the dirty states to keeper

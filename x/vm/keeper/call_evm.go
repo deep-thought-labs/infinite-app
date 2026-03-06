@@ -15,7 +15,11 @@ import (
 	"github.com/cosmos/evm/x/vm/statedb"
 =======
 	evmtrace "github.com/cosmos/evm/trace"
+<<<<<<< HEAD
 >>>>>>> f3cdd545 (feat(x/vm): add OpenTelemetry tracing (#871))
+=======
+	"github.com/cosmos/evm/x/vm/statedb"
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	"github.com/cosmos/evm/x/vm/types"
 
 	errorsmod "cosmossdk.io/errors"
@@ -24,6 +28,7 @@ import (
 )
 
 // CallEVM performs a smart contract method call using given args.
+<<<<<<< HEAD
 <<<<<<< HEAD
 // Note: if you call this from a precompile context, ensure that
 // you use the existing stateDB.
@@ -42,6 +47,11 @@ func (k Keeper) CallEVM(
 >>>>>>> 3d3b5dda (nicee (#787))
 =======
 ) (_ *types.MsgEthereumTxResponse, err error) {
+=======
+// Note: if you call this from a precompile context, ensure that
+// you use the existing stateDB.
+func (k Keeper) CallEVM(ctx sdk.Context, stateDB *statedb.StateDB, abi abi.ABI, from, contract common.Address, commit, callFromPrecompile bool, gasCap *big.Int, method string, args ...interface{}) (_ *types.MsgEthereumTxResponse, err error) {
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	ctx, span := ctx.StartSpan(tracer, "CallEVM", trace.WithAttributes(
 		attribute.String("from", from.Hex()),
 		attribute.String("contract", contract.Hex()),
@@ -67,6 +77,7 @@ func (k Keeper) CallEVM(
 
 // CallEVMWithData performs a smart contract method call using contract data.
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Note: if you call this from a precompile context, ensure that
 // you use the existing stateDB.
 func (k Keeper) CallEVMWithData(ctx sdk.Context, stateDB *statedb.StateDB, from common.Address, contract *common.Address, data []byte, commit bool, callFromPrecompile bool, gasCap *big.Int) (*types.MsgEthereumTxResponse, error) {
@@ -79,6 +90,11 @@ func (k Keeper) CallEVMWithData(
 	commit bool,
 	gasCap *big.Int,
 ) (_ *types.MsgEthereumTxResponse, err error) {
+=======
+// Note: if you call this from a precompile context, ensure that
+// you use the existing stateDB.
+func (k Keeper) CallEVMWithData(ctx sdk.Context, stateDB *statedb.StateDB, from common.Address, contract *common.Address, data []byte, commit bool, callFromPrecompile bool, gasCap *big.Int) (_ *types.MsgEthereumTxResponse, err error) {
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	contractAddr := ""
 	if contract != nil {
 		contractAddr = contract.Hex()

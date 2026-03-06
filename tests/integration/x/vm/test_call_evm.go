@@ -2,7 +2,6 @@ package vm
 
 import (
 	"fmt"
-	"math/big"
 
 	"github.com/ethereum/go-ethereum/common"
 
@@ -80,10 +79,14 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 		malleate func() []byte
 		deploy   bool
 <<<<<<< HEAD
+<<<<<<< HEAD
 		useNilDB bool
 =======
 		gasCap   *big.Int
 >>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
+=======
+		useNilDB bool
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		expPass  bool
 		expError string
 	}{
@@ -96,15 +99,21 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				return data
 			},
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			deploy:   false,
 			useNilDB: false,
 			expPass:  true,
 			expError: "",
+<<<<<<< HEAD
 =======
 			false,
 			nil,
 			true,
 >>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		},
 		{
 			name: "pass",
@@ -115,10 +124,14 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				return data
 			},
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			deploy:   false,
 			useNilDB: false,
 			expPass:  true,
 			expError: "",
+<<<<<<< HEAD
 		},
 		{
 			name: "pass with empty data",
@@ -134,20 +147,46 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			false,
 			nil,
 			true,
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		},
 		{
-			"fail with small gas cap",
-			types.ModuleAddress,
-			func() []byte {
+			name: "pass with empty data",
+			from: types.ModuleAddress,
+			malleate: func() []byte {
+				return []byte{}
+			},
+			deploy:   false,
+			useNilDB: false,
+			expPass:  true,
+			expError: "",
+		},
+		{
+			name: "fail empty sender",
+			from: common.Address{},
+			malleate: func() []byte {
+				return []byte{}
+			},
+			deploy:   false,
+			useNilDB: false,
+			expPass:  false,
+			expError: "",
+		},
+		{
+			name: "fail with nil statedb",
+			from: types.ModuleAddress,
+			malleate: func() []byte {
 				account := utiltx.GenerateAddress()
 				data, _ := erc20.Pack("balanceOf", account)
 				return data
 			},
-			false,
-			big.NewInt(1),
-			false,
+			deploy:   false,
+			useNilDB: true,
+			expPass:  false,
+			expError: "stateDB cannot be nil",
 		},
 		{
+<<<<<<< HEAD
 			"pass with empty data",
 			types.ModuleAddress,
 			func() []byte {
@@ -189,6 +228,8 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			expError: "stateDB cannot be nil",
 		},
 		{
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			name: "deploy",
 			from: types.ModuleAddress,
 			malleate: func() []byte {
@@ -197,15 +238,21 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				return data
 			},
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			deploy:   true,
 			useNilDB: false,
 			expPass:  true,
 			expError: "",
+<<<<<<< HEAD
 =======
 			true,
 			nil,
 			true,
 >>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		},
 		{
 			name: "fail deploy",
@@ -221,6 +268,9 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 				return data
 			},
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			deploy:   true,
 			useNilDB: false,
 			expPass:  false,
@@ -238,11 +288,14 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			useNilDB: true,
 			expPass:  false,
 			expError: "stateDB cannot be nil",
+<<<<<<< HEAD
 =======
 			true,
 			nil,
 			false,
 >>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 		},
 	}
 
@@ -261,6 +314,7 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 
 			if tc.deploy {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), stateDB, tc.from, nil, data, true, false, nil)
 			} else {
 				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), stateDB, tc.from, &wcosmosEVMContract, data, false, false, nil)
@@ -269,6 +323,11 @@ func (s *KeeperTestSuite) TestCallEVMWithData() {
 			} else {
 				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), tc.from, &wcosmosEVMContract, data, false, tc.gasCap)
 >>>>>>> 0ca6371a (fix(vm): respect provided gasCap in CallEVMWithData (#992))
+=======
+				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), stateDB, tc.from, nil, data, true, false, nil)
+			} else {
+				res, err = s.Network.App.GetEVMKeeper().CallEVMWithData(s.Network.GetContext(), stateDB, tc.from, &wcosmosEVMContract, data, false, false, nil)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			}
 
 			if tc.expPass {

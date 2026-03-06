@@ -18,7 +18,10 @@ import (
 )
 
 const (
+<<<<<<< HEAD
 <<<<<<< HEAD:tests/systemtests/upgrade_test.go
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	upgradeHeight int64 = 22
 	upgradeName         = "v0.5.0-to-v0.6.0" // must match UpgradeName in evmd/upgrades.go
 =======
@@ -53,6 +56,7 @@ func RunChainUpgrade(t *testing.T, base *suite.BaseTestSuite) {
 	systest.Sut.SetExecBinary(legacyBinary)
 	systest.Sut.SetTestnetInitializer(systest.InitializerWithBinary(legacyBinary, systest.Sut))
 	systest.Sut.SetupChain()
+<<<<<<< HEAD
 =======
 	legacyBinary := systest.WorkDir + "/binaries/v0.4/evmd"
 =======
@@ -62,6 +66,8 @@ func RunChainUpgrade(t *testing.T, base *suite.BaseTestSuite) {
 	sut.SetTestnetInitializer(systest.InitializerWithBinary(legacyBinary, sut))
 	sut.SetupChain()
 >>>>>>> a0a98b98 (refactor: systemtests (#720)):tests/systemtests/chainupgrade/v4_v5.go
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 
 	votingPeriod := 5 * time.Second // enough time to vote
 	sut.ModifyGenesisJSON(t, systest.SetGovVotingPeriod(t, votingPeriod))

@@ -118,6 +118,7 @@ func (s *KeeperTestSuite) TestConvertERC20() {
 				return msg
 			},
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 			contractMinterBurner,
 			false,
@@ -234,6 +235,8 @@ func (s *KeeperTestSuite) TestConvertERC20() {
 			contractMinterBurner,
 			false,
 >>>>>>> 91519e45 (fix: ibc middleware verify sender address incorrectly (#769))
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 			false,
 		},
 	}
@@ -314,7 +317,7 @@ func (s *KeeperTestSuite) TestConvertNativeERC20ToEVMERC20() {
 					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
 					s.network.App.GetBankKeeper(), mockEVMKeeper, s.network.App.GetStakingKeeper(),
-					&transferKeeper,
+					transferKeeper,
 				)
 				s.network.App.SetErc20Keeper(erc20Keeper)
 
@@ -344,7 +347,7 @@ func (s *KeeperTestSuite) TestConvertNativeERC20ToEVMERC20() {
 					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
 					s.network.App.GetBankKeeper(), mockEVMKeeper, s.network.App.GetStakingKeeper(),
-					&transferKeeper,
+					transferKeeper,
 				)
 				s.network.App.SetErc20Keeper(erc20Keeper)
 
@@ -376,7 +379,7 @@ func (s *KeeperTestSuite) TestConvertNativeERC20ToEVMERC20() {
 					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
 					s.network.App.GetBankKeeper(), mockEVMKeeper, s.network.App.GetStakingKeeper(),
-					&transferKeeper,
+					transferKeeper,
 				)
 				s.network.App.SetErc20Keeper(erc20Keeper)
 
@@ -406,7 +409,7 @@ func (s *KeeperTestSuite) TestConvertNativeERC20ToEVMERC20() {
 					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
 					s.network.App.GetBankKeeper(), mockEVMKeeper, s.network.App.GetStakingKeeper(),
-					&transferKeeper,
+					transferKeeper,
 				)
 				s.network.App.SetErc20Keeper(erc20Keeper)
 
@@ -437,7 +440,7 @@ func (s *KeeperTestSuite) TestConvertNativeERC20ToEVMERC20() {
 					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
 					mockBankKeeper, s.network.App.GetEVMKeeper(), s.network.App.GetStakingKeeper(),
-					&transferKeeper,
+					transferKeeper,
 				)
 				s.network.App.SetErc20Keeper(erc20Keeper)
 
@@ -464,7 +467,7 @@ func (s *KeeperTestSuite) TestConvertNativeERC20ToEVMERC20() {
 					s.network.App.GetKey("erc20"), s.network.App.AppCodec(),
 					authtypes.NewModuleAddress(govtypes.ModuleName), s.network.App.GetAccountKeeper(),
 					mockBankKeeper, s.network.App.GetEVMKeeper(), s.network.App.GetStakingKeeper(),
-					&transferKeeper,
+					transferKeeper,
 				)
 				s.network.App.SetErc20Keeper(erc20Keeper)
 

@@ -115,7 +115,11 @@ func (suite *MiddlewareTestSuite) transferViaPrecompile(
 		stateDB,
 		ics20precompile.ABI,
 		senderEthAddr,
+<<<<<<< HEAD:infinited/tests/ibc/ibc_middleware_test.go
 		common.HexToAddress(ics20precompile.PrecompileAddress),
+=======
+		common.HexToAddress(evmtypes.ICS20PrecompileAddress),
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/tests/ibc/ibc_middleware_test.go
 		true,
 		false,
 		nil,

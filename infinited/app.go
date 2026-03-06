@@ -39,6 +39,7 @@ import (
 	feemarkettypes "github.com/cosmos/evm/x/feemarket/types"
 	ibccallbackskeeper "github.com/cosmos/evm/x/ibc/callbacks/keeper"
 <<<<<<< HEAD:infinited/app.go
+<<<<<<< HEAD:infinited/app.go
 
 =======
 	"github.com/cosmos/evm/x/ibc/transfer"
@@ -51,6 +52,8 @@ import (
 	precisebanktypes "github.com/cosmos/evm/x/precisebank/types"
 =======
 >>>>>>> c7a849ee (chore!: Remove x/precisebank (#1019)):evmd/app.go
+=======
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/app.go
 	"github.com/cosmos/evm/x/vm"
 	evmkeeper "github.com/cosmos/evm/x/vm/keeper"
 	evmtypes "github.com/cosmos/evm/x/vm/types"
@@ -190,7 +193,7 @@ type EVMD struct {
 
 	// IBC keepers
 	IBCKeeper      *ibckeeper.Keeper // IBC Keeper must be a pointer in the app, so we can SetRouter on it correctly
-	TransferKeeper transferkeeper.Keeper
+	TransferKeeper *transferkeeper.Keeper
 	CallbackKeeper ibccallbackskeeper.ContractKeeper
 
 	// Cosmos EVM keepers
@@ -465,6 +468,18 @@ func NewExampleApp(
 		keys[feemarkettypes.StoreKey],
 	)
 
+	// instantiate IBC transfer keeper before the EVM keeper so precompiles receive a non-nil reference
+	app.TransferKeeper = transferkeeper.NewKeeper(
+		appCodec,
+		evmaddress.NewEvmCodec(sdk.GetConfig().GetBech32AccountAddrPrefix()),
+		runtime.NewKVStoreService(keys[ibctransfertypes.StoreKey]),
+		app.IBCKeeper.ChannelKeeper,
+		app.MsgServiceRouter(),
+		app.AccountKeeper,
+		app.BankKeeper,
+		authAddr,
+	)
+
 	// Set up EVM keeper
 	tracer := cast.ToString(appOpts.Get(srvflags.EVMTracer))
 
@@ -487,7 +502,7 @@ func NewExampleApp(
 			app.DistrKeeper,
 			app.BankKeeper,
 			&app.Erc20Keeper,
-			&app.TransferKeeper,
+			app.TransferKeeper,
 			app.IBCKeeper.ChannelKeeper,
 			app.IBCKeeper.ClientKeeper,
 			app.GovKeeper,
@@ -507,6 +522,7 @@ func NewExampleApp(
 		app.BankKeeper,
 		app.EVMKeeper,
 		app.StakingKeeper,
+<<<<<<< HEAD:infinited/app.go
 		&app.TransferKeeper,
 	)
 
@@ -521,6 +537,9 @@ func NewExampleApp(
 		app.AccountKeeper,
 		app.BankKeeper,
 		authAddr,
+=======
+		app.TransferKeeper,
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/app.go
 	)
 
 	/*
@@ -1063,11 +1082,11 @@ func (app *EVMD) GetCallbackKeeper() ibccallbackskeeper.ContractKeeper {
 	return app.CallbackKeeper
 }
 
-func (app *EVMD) GetTransferKeeper() transferkeeper.Keeper {
+func (app *EVMD) GetTransferKeeper() *transferkeeper.Keeper {
 	return app.TransferKeeper
 }
 
-func (app *EVMD) SetTransferKeeper(transferKeeper transferkeeper.Keeper) {
+func (app *EVMD) SetTransferKeeper(transferKeeper *transferkeeper.Keeper) {
 	app.TransferKeeper = transferKeeper
 }
 

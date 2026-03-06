@@ -37,6 +37,7 @@ func (k Keeper) ConvertERC20(
 	contract := common.HexToAddress(msg.ContractAddress)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	// Create stateDB for this transaction
 	stateDB := statedb.New(ctx, k.evmKeeper, statedb.NewEmptyTxConfig())
 =======
@@ -197,6 +198,12 @@ func (k Keeper) convertERC20IntoCoinsForNativeToken(
 
 	return &types.MsgConvertERC20Response{}, nil
 >>>>>>> b07425e5 (chore: fix lint after bumping SDK and ibc (#908))
+=======
+	// Create stateDB for this transaction
+	stateDB := statedb.New(ctx, k.evmKeeper, statedb.NewEmptyTxConfig())
+
+	return k.ConvertERC20IntoCoinsForNativeToken(ctx, stateDB, contract, msg.Amount, receiver, sender, true, false)
+>>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 }
 
 // ConvertCoin converts native Cosmos coins into ERC20 tokens for both
