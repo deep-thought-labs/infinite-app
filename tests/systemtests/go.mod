@@ -5,6 +5,7 @@ go 1.25.7
 require (
 	cosmossdk.io/math v1.5.3
 <<<<<<< HEAD
+<<<<<<< HEAD
 	cosmossdk.io/systemtests v1.4.0
 <<<<<<< HEAD
 	github.com/cometbft/cometbft v0.38.21
@@ -27,6 +28,9 @@ require (
 >>>>>>> 1651ab92 (chore: update to main and updated ibc (#1003))
 =======
 	github.com/cometbft/cometbft v0.39.0-beta.2.0.20260227171234-00271936093e
+=======
+	github.com/cometbft/cometbft v0.39.0-beta.2.0.20260305191742-d939d1e7c932
+>>>>>>> dc781634 (chore: add comet libp2p startup fix (#1056))
 	github.com/cosmos/cosmos-sdk v0.54.0-rc.1.0.20260302180736-2fbcc8d5f49e
 >>>>>>> 84e141c6 (feat!: Krakatoa (#1030))
 	github.com/cosmos/evm v0.5.0-rc.0
@@ -46,7 +50,6 @@ require (
 	cosmossdk.io/core v1.1.0 // indirect
 	cosmossdk.io/depinject v1.2.1 // indirect
 	cosmossdk.io/errors v1.1.0 // indirect
-	cosmossdk.io/log v1.6.1 // indirect
 	cosmossdk.io/log/v2 v2.0.1 // indirect
 	cosmossdk.io/schema v1.1.0 // indirect
 	cosmossdk.io/store v1.10.0-rc.2.0.20260217205615-0d33c2463b76 // indirect
