@@ -231,6 +231,7 @@ which accepts a path for the resulting pprof file.
 	cmd.Flags().Uint64(srvflags.EVMMempoolAccountQueue, cosmosevmserverconfig.DefaultMempoolConfig().AccountQueue, "the maximum number of non-executable transaction slots permitted per account")
 	cmd.Flags().Uint64(srvflags.EVMMempoolGlobalQueue, cosmosevmserverconfig.DefaultMempoolConfig().GlobalQueue, "the maximum number of non-executable transaction slots for all accounts")
 	cmd.Flags().Duration(srvflags.EVMMempoolLifetime, cosmosevmserverconfig.DefaultMempoolConfig().Lifetime, "the maximum amount of time non-executable transaction are queued")
+	cmd.Flags().Bool(srvflags.EVMMempoolOperateExclusively, cosmosevmserverconfig.DefaultMempoolConfig().OperateExclusively, "if this mempool is the only mempool in the application (CometBFT must be using the 'app' mempool if this mempool is operating exclusively)")
 	cmd.Flags().Duration(srvflags.EVMMempoolPendingTxProposalTimeout, cosmosevmserverconfig.DefaultMempoolConfig().PendingTxProposalTimeout, "the maximum amount of time to spend waiting for rechecking of the mempool to complete when creating a proposal")
 	cmd.Flags().Int(srvflags.EVMMempoolInsertQueueSize, cosmosevmserverconfig.DefaultMempoolConfig().InsertQueueSize, "the maximum number of transactions that can be in the insert queue at once")
 
@@ -457,6 +458,7 @@ func startInProcess(svrCtx *server.Context, clientCtx client.Context, opts Start
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok {
 =======
@@ -465,6 +467,12 @@ func startInProcess(svrCtx *server.Context, clientCtx client.Context, opts Start
 =======
 		if m, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool); ok && m != nil {
 >>>>>>> a6898813 (Merge commit from fork)
+=======
+		type EventBusser interface {
+			SetEventBus(eventBus *cmttypes.EventBus)
+		}
+		if m, ok := evmApp.GetMempool().(EventBusser); ok && m != nil {
+>>>>>>> 5a7f5358 (feat(krakatoa): `operate_exclusively` toggles krakatoa features (#1060))
 			m.SetEventBus(bftNode.EventBus())
 		}
 >>>>>>> 00328124 (fix: allow mempool interrupt while it is still ongoing (#495))
@@ -564,9 +572,9 @@ func startInProcess(svrCtx *server.Context, clientCtx client.Context, opts Start
 		if !ok {
 			return fmt.Errorf("json-rpc server requires AppWithPendingTxStream")
 		}
-		mp, ok := evmApp.GetMempool().(*evmmempool.ExperimentalEVMMempool)
+		mp, ok := evmApp.GetMempool().(PossiblyExclusiveMempool)
 		if !ok {
-			return fmt.Errorf("json-rpc server requires ExperimentalEVMMempool")
+			return fmt.Errorf("json-rpc server requires PossiblyExclusiveMempool")
 		}
 
 		_, err = StartJSONRPC(ctx, svrCtx, clientCtx, g, &config, idxer, txApp, mp)

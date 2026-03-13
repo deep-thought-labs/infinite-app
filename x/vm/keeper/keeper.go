@@ -86,7 +86,7 @@ type Keeper struct {
 
 	// evmMempool is the custom EVM appside mempool
 	// if it is nil, the default comet mempool will be used
-	evmMempool *evmmempool.ExperimentalEVMMempool
+	evmMempool evmmempool.NotifiedMempool
 
 <<<<<<< HEAD
 	// defaultEvmCoinInfo is the default EVM coin info used when evmCoinInfo is not initialized in the state,
@@ -456,14 +456,10 @@ func (k Keeper) KVStoreKeys() map[string]storetypes.StoreKey {
 	return k.storeKeys
 }
 
-// SetEvmMempool sets the evm mempool
-func (k *Keeper) SetEvmMempool(evmMempool *evmmempool.ExperimentalEVMMempool) {
+// SetMempool sets the mempool that is notified of new blocks via the
+// EndBlocker.
+func (k *Keeper) SetEvmMempool(evmMempool evmmempool.NotifiedMempool) {
 	k.evmMempool = evmMempool
-}
-
-// GetEvmMempool returns the evm mempool
-func (k Keeper) GetEvmMempool() *evmmempool.ExperimentalEVMMempool {
-	return k.evmMempool
 }
 
 // SetHeaderHash sets current block hash into EIP-2935 compatible storage contract.
