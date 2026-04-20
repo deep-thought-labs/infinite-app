@@ -11,11 +11,12 @@ import (
 
 	"github.com/cosmos/evm/x/vm/statedb"
 	evmtypes "github.com/cosmos/evm/x/vm/types"
-	transfertypes "github.com/cosmos/ibc-go/v10/modules/apps/transfer/types"
-	channeltypes "github.com/cosmos/ibc-go/v10/modules/core/04-channel/types"
-	"github.com/cosmos/ibc-go/v10/modules/core/exported"
+	transfertypes "github.com/cosmos/ibc-go/v11/modules/apps/transfer/types"
+	channeltypes "github.com/cosmos/ibc-go/v11/modules/core/04-channel/types"
+	"github.com/cosmos/ibc-go/v11/modules/core/exported"
 
 	"cosmossdk.io/core/address"
+<<<<<<< HEAD
 <<<<<<< HEAD
 	"cosmossdk.io/log"
 	storetypes "cosmossdk.io/store/types"
@@ -26,7 +27,11 @@ import (
 =======
 	storetypes "cosmossdk.io/store/types"
 >>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
+=======
+	"cosmossdk.io/log/v2"
+>>>>>>> a8d0731b (feat(krakatoa): make krakatoa only mempool & update comet+sdk to main branches (#1112))
 
+	storetypes "github.com/cosmos/cosmos-sdk/store/v2/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 )

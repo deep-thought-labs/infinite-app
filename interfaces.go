@@ -18,6 +18,7 @@ import (
 =======
 =======
 	evmkeeper "github.com/cosmos/evm/x/vm/keeper"
+<<<<<<< HEAD
 	transferkeeper "github.com/cosmos/ibc-go/v10/modules/apps/transfer/keeper"
 >>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
 	ibckeeper "github.com/cosmos/ibc-go/v10/modules/core/keeper"
@@ -25,6 +26,11 @@ import (
 	ibctesting "github.com/cosmos/ibc-go/v10/testing"
 
 	storetypes "cosmossdk.io/store/types"
+=======
+	transferkeeper "github.com/cosmos/ibc-go/v11/modules/apps/transfer/keeper"
+	ibckeeper "github.com/cosmos/ibc-go/v11/modules/core/keeper"
+	ibctesting "github.com/cosmos/ibc-go/v11/testing"
+>>>>>>> a8d0731b (feat(krakatoa): make krakatoa only mempool & update comet+sdk to main branches (#1112))
 
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -32,6 +38,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	servertypes "github.com/cosmos/cosmos-sdk/server/types"
+	storetypes "github.com/cosmos/cosmos-sdk/store/v2/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/mempool"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"

@@ -2,18 +2,8 @@ package evmd
 
 import (
 	"context"
-<<<<<<< HEAD:infinited/upgrades.go
 
-<<<<<<< HEAD:infinited/upgrades.go
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
-=======
-	"github.com/cosmos/evm/x/vm/types"
->>>>>>> a0a98b98 (refactor: systemtests (#720)):evmd/upgrades.go
-
-=======
->>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/upgrades.go
-	storetypes "cosmossdk.io/store/types"
+	storetypes "github.com/cosmos/cosmos-sdk/store/v2/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -34,51 +24,6 @@ func (app EVMD) RegisterUpgradeHandlers() {
 		func(ctx context.Context, _ upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
 			sdkCtx := sdk.UnwrapSDKContext(ctx)
 			sdkCtx.Logger().Debug("this is a debug level message to test that verbose logging mode has properly been enabled during a chain upgrade")
-<<<<<<< HEAD:infinited/upgrades.go
-<<<<<<< HEAD:infinited/upgrades.go
-=======
-
-			app.BankKeeper.SetDenomMetaData(ctx, banktypes.Metadata{
-				Description: "Example description",
-				DenomUnits: []*banktypes.DenomUnit{
-					{
-						Denom:    "atest",
-						Exponent: 0,
-						Aliases:  nil,
-					},
-					{
-						Denom:    "test",
-						Exponent: 18,
-						Aliases:  nil,
-					},
-				},
-				Base:    "atest",
-				Display: "test",
-				Name:    "Test Token",
-				Symbol:  "TEST",
-				URI:     "example_uri",
-				URIHash: "example_uri_hash",
-			})
-
-			// (Required for NON-18 denom chains *only)
-			// Update EVM params to add Extended denom options
-			// Ensure that this corresponds to the EVM denom
-			// (tyically the bond denom)
-			evmParams := app.EVMKeeper.GetParams(sdkCtx)
-			evmParams.ExtendedDenomOptions = &types.ExtendedDenomOptions{ExtendedDenom: "atest"}
-			err := app.EVMKeeper.SetParams(sdkCtx, evmParams)
-			if err != nil {
-				return nil, err
-			}
-			// Initialize EvmCoinInfo in the module store. Chains bootstrapped before v0.5.0
-			// binaries never stored this information (it lived only in process globals),
-			// so migrating nodes would otherwise see an empty EvmCoinInfo on upgrade.
-			if err := app.EVMKeeper.InitEvmCoinInfo(sdkCtx); err != nil {
-				return nil, err
-			}
->>>>>>> a0a98b98 (refactor: systemtests (#720)):evmd/upgrades.go
-=======
->>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053)):evmd/upgrades.go
 			return app.ModuleManager.RunMigrations(ctx, app.Configurator(), fromVM)
 		},
 	)

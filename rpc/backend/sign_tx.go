@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
-	"strings"
 
 	"github.com/ethereum/go-ethereum/accounts/keystore"
 	"github.com/ethereum/go-ethereum/common"
@@ -17,15 +16,15 @@ import (
 	"go.opentelemetry.io/otel/trace"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	"github.com/cosmos/evm/mempool"
+=======
+>>>>>>> a8d0731b (feat(krakatoa): make krakatoa only mempool & update comet+sdk to main branches (#1112))
 	evmtrace "github.com/cosmos/evm/trace"
 >>>>>>> e29dc52c (feat(rpc): add OpenTelemetry tracing (#863))
 	evmtypes "github.com/cosmos/evm/x/vm/types"
 
-	errorsmod "cosmossdk.io/errors"
-
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	signingtypes "github.com/cosmos/cosmos-sdk/types/tx/signing"
 )
@@ -97,14 +96,6 @@ func (b *Backend) SendTransaction(ctx context.Context, args evmtypes.Transaction
 		return common.Hash{}, err
 	}
 
-	// Encode transaction by default Tx encoder
-	txEncoder := b.ClientCtx.TxConfig.TxEncoder()
-	txBytes, err := txEncoder(tx)
-	if err != nil {
-		b.Logger.Error("failed to encode eth tx using default encoder", "error", err.Error())
-		return common.Hash{}, err
-	}
-
 	ethTx := msg.AsTransaction()
 
 	// check the local node config in case unprotected txs are disabled
@@ -117,22 +108,17 @@ func (b *Backend) SendTransaction(ctx context.Context, args evmtypes.Transaction
 
 	// publish tx directly to app-side mempool, avoiding broadcasting to
 	// consensus layer.
-	if b.UseAppMempool {
-		// we are directly calling into the mempool rather than the ABCI
-		// handler for InsertTx, since the ABCI handler obfuscates the error's
-		// returned via codes, and we would like to have the full error to
-		// return to clients.
-		err := b.Mempool.Insert(ctx, tx)
-		if err != nil {
-			// no need for special error handling like in the broadcast tx case
-			// since this is coming directly from the evm mempool insert.
-			return common.Hash{}, err
-		}
-
-		b.TrackTxIfSupported(txHash)
-		return txHash, nil
+	// we are directly calling into the mempool rather than the ABCI
+	// handler for InsertTx, since the ABCI handler obfuscates the error's
+	// returned via codes, and we would like to have the full error to
+	// return to clients.
+	if err = b.Mempool.Insert(ctx, tx); err != nil {
+		// no need for special error handling like in the broadcast tx case
+		// since this is coming directly from the evm mempool insert.
+		return common.Hash{}, err
 	}
 
+<<<<<<< HEAD
 	// Broadcast transaction in sync mode (default)
 	// NOTE: If error is encountered on the node, the broadcast will not return an error
 	syncCtx := b.ClientCtx.WithBroadcastMode(flags.BroadcastSync)
@@ -154,8 +140,10 @@ func (b *Backend) SendTransaction(ctx context.Context, args evmtypes.Transaction
 		b.Logger.Error("failed to broadcast tx", "error", err.Error())
 		return txHash, err
 	}
+=======
+	b.TrackTxIfSupported(txHash)
+>>>>>>> a8d0731b (feat(krakatoa): make krakatoa only mempool & update comet+sdk to main branches (#1112))
 
-	// Return transaction hash
 	return txHash, nil
 }
 
