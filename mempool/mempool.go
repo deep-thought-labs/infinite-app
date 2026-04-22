@@ -249,19 +249,14 @@ func NewMempool(
 		panic("tx pool should contain only legacypool")
 	}
 
-	cosmosPoolConfig := config.CosmosPoolConfig
-	if cosmosPoolConfig == nil {
-		cosmosPoolConfig = defaultCosmosPoolConfig(blockchain.GetCoinDenom)
-	}
-
-	cosmosPoolConfig.MaxTx = cosmosPoolMaxTx
-	cosmosPool := sdkmempool.NewPriorityMempool(*cosmosPoolConfig)
 	recheckPool := NewRecheckMempool(
 		logger,
-		cosmosPool,
+		config.CosmosPoolConfig,
+		cosmosPoolMaxTx,
 		reservationTracker.NewHandle(-1),
 		cosmosRechecker,
 		heightsync.New(blockchain.CurrentBlock().Number, NewCosmosTxStore, logger.With("pool", "cosmos_recheck_mempool")),
+		reapList,
 		blockchain,
 	)
 
@@ -292,12 +287,10 @@ func NewMempool(
 		func(txs []*sdk.Tx) []error {
 			errs := make([]error, len(txs))
 			for i, tx := range txs {
-				// NOTE: cosmos txs must be added to the reap list directly
-				// after insert, since recheck runs on insert, if insert
-				// completes successfully, then we know they are valid and
-				// should be added to the reap list, we do not need to wait
-				// until the next blocks recheck.
-				errs[i] = mempool.insertAndReapCosmosTx(*tx)
+				if tx == nil {
+					continue
+				}
+				errs[i] = recheckPool.Insert(context.Background(), *tx)
 			}
 			return errs
 		},
@@ -493,24 +486,6 @@ func (m *Mempool) insert(tx sdk.Tx) (<-chan error, error) {
 	}
 }
 
-// insertAndReapCosmosTx inserts a cosmos tx into the cosmos mempool and sets
-// it to be reaped.
-func (m *Mempool) insertAndReapCosmosTx(tx sdk.Tx) error {
-	m.logger.Debug("inserting Cosmos transaction")
-
-	// Insert into cosmos pool (handles locking, ante handler, and address reservation internally)
-	if err := m.recheckCosmosPool.Insert(context.Background(), tx); err != nil {
-		m.logger.Error("failed to insert Cosmos transaction", "error", err)
-		return err
-	}
-
-	m.logger.Debug("Cosmos transaction inserted successfully")
-	if err := m.reapList.PushCosmosTx(tx); err != nil {
-		panic(fmt.Errorf("successfully inserted cosmos tx, but failed to insert into reap list: %w", err))
-	}
-	return nil
-}
-
 // ReapNewValidTxs removes and returns the oldest transactions from the reap
 // list until maxBytes or maxGas limits are reached.
 func (m *Mempool) ReapNewValidTxs(maxBytes uint64, maxGas uint64) ([][]byte, error) {
@@ -648,14 +623,13 @@ func (m *Mempool) RemoveWithReason(ctx context.Context, tx sdk.Tx, reason sdkmem
 func (m *Mempool) removeCosmosTx(ctx context.Context, tx sdk.Tx, reason sdkmempool.RemoveReason) error {
 	m.logger.Debug("Removing Cosmos transaction")
 
-	// Remove from cosmos pool (handles address reservation release internally)
+	// Remove from cosmos pool (handles address reservation release  and reap
+	// list drop internally)
 	err := sdkmempool.RemoveWithReason(ctx, m.recheckCosmosPool, tx, reason)
 	if err != nil {
 		m.logger.Error("Failed to remove Cosmos transaction", "error", err)
 		return err
 	}
-
-	m.reapList.DropCosmosTx(tx)
 	m.logger.Debug("Cosmos transaction removed successfully")
 
 	return nil
@@ -826,6 +800,7 @@ func (m *Mempool) RecheckCosmosTxs(newHead *ethtypes.Header) {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> a8d0731b (feat(krakatoa): make krakatoa only mempool & update comet+sdk to main branches (#1112))
 =======
 func defaultCosmosPoolConfig(getDenom func() string) *sdkmempool.PriorityNonceMempoolConfig[math.Int] {
@@ -854,6 +829,8 @@ func defaultCosmosPoolConfig(getDenom func() string) *sdkmempool.PriorityNonceMe
 }
 
 >>>>>>> 0719a9f1 (feat(mempool): load coinInfo only once (#1118))
+=======
+>>>>>>> 5f82a0d2 (fix(mempool): Proper dropping from `reaplist` for cosmos txs during replacement and rechecking (#1123))
 // getEVMMessage validates that the transaction contains exactly one message and returns it if it's an EVM message.
 // Returns an error if the transaction has no messages, multiple messages, or the single message is not an EVM transaction.
 func evmTxFromCosmosTx(tx sdk.Tx) (*evmtypes.MsgEthereumTx, error) {
