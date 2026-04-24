@@ -97,6 +97,7 @@ type Keeper struct {
 	// fees to the fee collector module in the endBlocker instead of using regular sends during tx execution.
 	virtualFeeCollection bool
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 79bcc14f (feat!: Block STM (#589))
 =======
 
@@ -104,6 +105,8 @@ type Keeper struct {
 	// mainly for historical queries.
 	defaultEvmCoinInfo types.EvmCoinInfo
 >>>>>>> 1fd8ef37 (fix: `evmCoinInfo` not exists in historical state (#790))
+=======
+>>>>>>> 4c3009ce (fix(vm): hydrate evm globals (#1126))
 }
 
 // NewKeeper generates new evm module keeper
@@ -173,6 +176,7 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 	return ctx.Logger().With("module", types.ModuleName)
 }
 
+<<<<<<< HEAD
 // WithDefaultEvmCoinInfo set default EvmCoinInfo
 func (k *Keeper) WithDefaultEvmCoinInfo(coinInfo types.EvmCoinInfo) *Keeper {
 	k.defaultEvmCoinInfo = coinInfo
@@ -187,6 +191,8 @@ func (k *Keeper) WithDefaultEvmCoinInfo(coinInfo types.EvmCoinInfo) *Keeper {
 	return k
 }
 
+=======
+>>>>>>> 4c3009ce (fix(vm): hydrate evm globals (#1126))
 // ----------------------------------------------------------------------------
 // Block Bloom
 // Required by Web3 API.
