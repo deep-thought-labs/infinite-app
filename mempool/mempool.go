@@ -159,6 +159,9 @@ type Config struct {
 	// pending insertion into the mempool. Note the insert queue is only used
 	// for EVM txs.
 	InsertQueueSize int
+	// EnableTxTracker controls whether the mempool records per-tx lifecycle
+	// telemetry (queued/pending/included latencies). Defaults to false.
+	EnableTxTracker bool
 }
 
 // Mempool is an application side mempool implementation that operates
@@ -189,7 +192,7 @@ type Mempool struct {
 	reapList *reaplist.ReapList
 
 	/** Transaction Tracking **/
-	txTracker *txtracker.TxTracker
+	txTracker txtracker.Tracker
 
 	/** Transaction Inserting **/
 	cosmosInsertQueue *queue.Queue[sdk.Tx]
@@ -230,7 +233,10 @@ func NewMempool(
 	}
 
 	reapList := reaplist.New(NewTxEncoder(txConfig))
-	txTracker := txtracker.New()
+	txTracker := txtracker.NewNoop()
+	if config.EnableTxTracker {
+		txTracker = txtracker.New()
+	}
 	legacyPool := legacypool.New(
 		legacyConfig,
 		logger,
