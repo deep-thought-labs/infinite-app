@@ -374,12 +374,13 @@ test-rpc-compat-stop:
 
 .PHONY: localnet-start localnet-stop localnet-build-env localnet-build-nodes test-rpc-compat test-rpc-compat-stop mocks
 
-test-system: build-v05 build
+test-system: build-v06 build
 	mkdir -p ./tests/systemtests/binaries/
 	cp $(BUILDDIR)/evmd ./tests/systemtests/binaries/
 	cd tests/systemtests/Counter && forge build
 	$(MAKE) -C tests/systemtests test
 
+<<<<<<< HEAD
 build-v05:
 	mkdir -p ./tests/systemtests/binaries/v0.5
 <<<<<<< HEAD
@@ -391,8 +392,13 @@ build-v05:
 =======
 	git checkout v0.5.1
 >>>>>>> 5b9f95e1 (chore: port v0.6.x onto krakatoa (#1053))
+=======
+build-v06:
+	mkdir -p ./tests/systemtests/binaries/v0.6
+	git checkout v0.6.0
+>>>>>>> 65e09776 (chore(docs, tests): v0.7.x upgrade guide (#1139))
 	make build
-	cp $(BUILDDIR)/evmd ./tests/systemtests/binaries/v0.5
+	cp $(BUILDDIR)/evmd ./tests/systemtests/binaries/v0.6
 	git checkout -
 
 mocks:
