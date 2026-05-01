@@ -83,6 +83,10 @@ const (
 	SubscriberName = "evm"
 	// fallbackBlockGasLimit is the default block gas limit is 0 or missing in genesis file
 	fallbackBlockGasLimit = 100_000_000
+
+	// cosmosReserverHandlerID is the id of the reserver handler for the cosmos pool
+	// 0+ are reserved for evm sub-pools
+	cosmosReserverHandlerID = -1
 )
 
 <<<<<<< HEAD
@@ -284,15 +288,23 @@ func NewMempool(
 		panic("tx pool should contain only legacypool")
 	}
 
+	heightSync := heightsync.New(
+		blockchain.CurrentBlock().Number,
+		NewCosmosTxStore,
+		logger.With("pool", "cosmos_recheck_mempool"),
+	)
+
+	reservationHandle := reservationTracker.NewHandle(cosmosReserverHandlerID, reserver.WithRefCounter())
+
 	recheckPool := NewRecheckMempool(
-		logger,
 		config.CosmosPoolConfig,
 		cosmosPoolMaxTx,
-		reservationTracker.NewHandle(-1),
+		reservationHandle,
 		cosmosRechecker,
-		heightsync.New(blockchain.CurrentBlock().Number, NewCosmosTxStore, logger.With("pool", "cosmos_recheck_mempool")),
+		heightSync,
 		reapList,
 		blockchain,
+		logger,
 	)
 
 	mempool := &Mempool{
@@ -620,8 +632,13 @@ func (m *Mempool) RemoveWithReason(ctx context.Context, tx sdk.Tx, reason sdkmem
 >>>>>>> 465fe6e6 (remove unnecessary fetch of context on mempool removals (#1125))
 =======
 //
-// NOTE: even if removal fails, side effects may have occurred like recording
+// NOTE #1: even if removal fails, side effects may have occurred like recording
 // nonce increments.
+//
+// NOTE #2: This method might be called multiple times for the same tx:
+//   - during tx re-execution by BlockSTM
+//   - during tx execution by OptimisticExecution that fails
+//     and then inside another finalizeBlock() (e.g. consensus round increment)
 func (m *Mempool) RemoveWithReason(_ context.Context, tx sdk.Tx, reason sdkmempool.RemoveReason) error {
 >>>>>>> 2a2d954b (fix(mempool): advance legacypool nonces on cosmos tx inclusion (#1133))
 	msgEthereumTx, err := evmTxFromCosmosTx(tx)
@@ -672,8 +689,7 @@ func (m *Mempool) removeCosmosTx(tx sdk.Tx, reason sdkmempool.RemoveReason) erro
 	}
 
 	if err := m.recheckCosmosPool.Remove(tx); err != nil {
-		m.logger.Error("Failed to remove Cosmos transaction", "error", err)
-		return fmt.Errorf("removing cosmos tx: %w", err)
+		return fmt.Errorf("recheckCosmosPool.Remove: %w", err)
 	}
 
 	m.logger.Debug("Cosmos transaction removed successfully")
