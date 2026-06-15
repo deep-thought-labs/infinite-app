@@ -14,7 +14,7 @@ COMMIT := $(shell git log -1 --format='%H')
 
 BINDIR ?= $(GOPATH)/bin
 BUILDDIR ?= $(CURDIR)/build
-EXAMPLE_BINARY := evmd
+EXAMPLE_BINARY := infinited
 
 ###############################################################################
 ###                              Repo Info                                  ###
@@ -30,7 +30,7 @@ export GO111MODULE = on
 ###############################################################################
 
 # evmd is a separate module under ./evmd
-EVMD_DIR      := evmd
+EVMD_DIR      := infinited
 EVMD_MAIN_PKG := ./cmd/evmd
 
 ###############################################################################
