@@ -10,6 +10,18 @@ Initial identity integration on Cosmos EVM v0.4.0.
 - Added project README, NOTICE, and LICENSE branding for Infinite Drive
 - Established Infinite network identity documentation (chain name, token, bech32)
 
+
+## v0.3.0
+
+Follow the infinite v0.2.x to v0.3.0 migration guide for upgrade instructions.
+
+- Cosmos EVM alignment: codebase synchronized with upstream Cosmos EVM v0.7.0.
+
+### CONTINUOUS INTEGRATION
+
+- Coverage CI runs separate matrix jobs with Codecov integration for unit and integration tests.
+- Local integration test reporting with timestamped summarized reports.
+
 ## v0.2.0
 
 Upstream synchronization milestones through the Cosmos EVM v0.6.0 era.
